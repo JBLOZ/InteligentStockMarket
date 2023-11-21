@@ -5,18 +5,62 @@ import string
 
 
 def crearCuenta():
-    nombre_usuario = ""
+    
+    nombre_usuario = pedirNombre()
+    nombre_usuario = comprobarUsuario(nombre_usuario)
+    passw = pedirPassw()
+    passw = comprobarPassw(passw,nombre_usuario)
+    bienvenida(nombre_usuario,passw)
+
+    return nombre_usuario, passw
+
+
+
+def pedirNombre():
     nombre_usuario = input('Introduce un nombre de usuario: ')
-    while len(nombre_usuario) < 3:
-        nombre_usuario = input('El nombre de usuario tiene que tener mas de 3 caracteres: ')
-        while nombre_usuario in c.usuarios:
-            nombre_usuario = input('Este nombre de usuario ya ha sido usado, escoja otro : ')
-    while nombre_usuario in c.usuarios:
-            nombre_usuario = input('Este nombre de usuario ya ha sido usado, escoja otro : ')    
-        
     return nombre_usuario
 
-def iniciar_sesion(usuarios,contrasenas):
+
+
+def comprobarUsuario(nombre_usuario):
+
+    while len(nombre_usuario) < 3 or nombre_usuario.capitalize() in c.usuarios:
+
+        if len(nombre_usuario) < 3:
+            print('El nombre de usuario tiene que tener mas de 3 caracteres')
+        else:
+            print('Este nombre de usuario ya ha sido usado')    
+
+        nombre_usuario = pedirNombre()
+
+    return nombre_usuario
+
+
+def pedirPassw():
+    passw = input('Introduce una contrasena para la cuenta: ')
+    return passw
+
+def comprobarPassw(passw,user):
+    while len(passw) < 8 or not any(i.isupper() for i in passw) or not any(i.isdigit() for i in passw) or user.upper() in passw.upper():
+
+        if len(passw) < 8:
+            print ('La contrasena debe de tener 8 o mas caracteres')
+        if not any(i.isupper() for i in passw):
+            print('La contrasena debe de tener almenos una mayuscula')
+        if not any(i.isdigit() for i in passw):
+            print ('La contrasena debe de tener al menos un numero')
+        if user.upper() in passw.upper():
+            print ('La contrasena no puede contener tu nombre de usuario')
+        passw = pedirPassw()
+
+    return passw
+
+def bienvenida(user,passw):
+    print('Bienvenido a Inteligent Stock Market, ' + user + ', no comparta nunca su contrasena: ' + passw)
+
+
+
+def iniciarSesion(usuarios,contrasenas):
     usuario_iniciando=input('Introduce tu usuario: ')
     contrasena_iniciando=input('Introduce tu contrasena: ')
     posUs=1
@@ -56,4 +100,5 @@ def cambiar_contrasena():
                 print('Nueva contrasena no valida. Asegurate de que cumple con los requisitos.')
         else:
             print('Contrasena incorrecta. Intenta nuevamente.')
+
 
