@@ -4,6 +4,8 @@ import string
 
 
 
+
+
 def crearCuenta():
     
     nombre_usuario = pedirNombre()
@@ -56,7 +58,36 @@ def comprobarPassw(passw,user):
     return passw
 
 def bienvenida(user,passw):
-    print('Bienvenido a Inteligent Stock Market, ' + user + ', no comparta nunca su contrasena: ' + passw)
+    print('Bienvenido a Inteligent Stock Market ' + user + ', no comparta nunca su contrasena: ' + ocultarStrings(passw))
+
+
+import random
+
+def ocultarStrings(strn, numCaract=None, caracter="*", posicion="aleatoria"):
+    if numCaract is None:
+        numCaract = len(strn) // 2
+
+    nuevaStr = strn
+
+    if posicion == "aleatoria":
+        for i in range(numCaract):
+            index = random.randint(0, len(nuevaStr) - 1)
+            nuevaStr = nuevaStr[:index] + caracter + nuevaStr[index + 1:]
+    else:
+
+        if posicion == "final":
+            nuevaStr = strn[:len(strn)-numCaract]  
+
+
+        if posicion == "inicio":        
+            nuevaStr = strn[numCaract:]
+        for i in range(numCaract):
+            nuevaStr = caracter + nuevaStr 
+
+    return nuevaStr
+
+
+
 
 
 
