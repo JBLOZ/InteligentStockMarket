@@ -1,6 +1,7 @@
 import constantes_variables as c
 import random
 import string
+import re
 
 
 
@@ -13,6 +14,10 @@ def crearCuenta():
     passw = pedirPassw()
     passw = comprobarPassw(passw,nombre_usuario)
     bienvenida(nombre_usuario,passw)
+    saveUserPassw(nombre_usuario,passw)
+    
+
+
 
     return nombre_usuario, passw
 
@@ -61,7 +66,7 @@ def bienvenida(user,passw):
     print('Bienvenido a Inteligent Stock Market ' + user + ', no comparta nunca su contrasena: ' + ocultarStrings(passw))
 
 
-import random
+
 
 def ocultarStrings(strn, numCaract=None, caracter="*", posicion="aleatoria"):
     if numCaract is None:
@@ -85,6 +90,29 @@ def ocultarStrings(strn, numCaract=None, caracter="*", posicion="aleatoria"):
             nuevaStr = caracter + nuevaStr 
 
     return nuevaStr
+
+
+def saveUserPassw(user,passw):
+    c.contrasenas.append(passw) 
+    c.usuarios.append(user)
+    if passw in c.contrasenas and user in c.usuarios:
+        print('Hemos guardado tu usuario y contraseña')
+
+def pedirDatos(nombre):
+    nombre = input('Nombre:')
+    comprobarStringCarcEsp(nombre)
+
+    
+    
+    
+def comprobarStringCarcEsp(strn,patron = re.compile(r'^[a-zA-Z]+$'),tipo = 'nombre'):
+    while patron.match(strn):
+        print ('El ' + tipo + ' no puede contener ni caractares especiales ni numeros')
+        strn = input(tipo +': ')
+    return strn
+        
+
+
 
 
 
