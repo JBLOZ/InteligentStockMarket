@@ -119,11 +119,10 @@ def pedirDatos():
 
 
 
-comprobarStringCarcEsp('Jordi')
-    
+
     
 def comprobarStringCarcEsp(strn,tipo = 'nombre'):
-    for i in range (len(strn))
+    for i in range (len(strn)):
         if ord(strn.lower[i]) > 97 and ord(strn[i]) < 122:
             pass
         else:
@@ -133,7 +132,7 @@ def comprobarStringCarcEsp(strn,tipo = 'nombre'):
         
 
 
-
+comprobarStringCarcEsp(input(''))
 
 
 
@@ -179,5 +178,7 @@ def cambiar_contrasena():
                 print('Nueva contrasena no valida. Asegurate de que cumple con los requisitos.')
         else:
             print('Contrasena incorrecta. Intenta nuevamente.')
+
+
 
 
