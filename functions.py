@@ -15,6 +15,10 @@ def crearCuenta():
     passw = comprobarPassw(passw,nombre_usuario)
     bienvenida(nombre_usuario,passw)
     saveUserPassw(nombre_usuario,passw)
+    pedirDatos()
+
+
+
     
 
 
@@ -95,21 +99,32 @@ def ocultarStrings(strn, numCaract=None, caracter="*", posicion="aleatoria"):
 def saveUserPassw(user,passw):
     c.contrasenas.append(passw) 
     c.usuarios.append(user)
+    comprobarUserPassw(user,passw)
+
+def comprobarUserPassw(user,passw):
     if passw in c.contrasenas and user in c.usuarios:
         print('Hemos guardado tu usuario y contraseña')
+        return True
+    else:
+        print('No hemos podido guardar tu usuario y contraseña')
+        return False
 
-def pedirDatos(nombre):
-    nombre = input('Nombre:')
-    comprobarStringCarcEsp(nombre)
+
+def pedirDatos():
+    c.usuarioNuevo['nombre'] = input('Nombre: ')
+    print(c.usuarioNuevo['nombre'])
+    comprobarStringCarcEsp(c.usuarioNuevo['nombre'])
+
+
 
     
     
     
-def comprobarStringCarcEsp(strn,patron = re.compile(r'^[a-zA-Z]+$'),tipo = 'nombre'):
-    while patron.match(strn):
-        print ('El ' + tipo + ' no puede contener ni caractares especiales ni numeros')
-        strn = input(tipo +': ')
-    return strn
+#def comprobarStringCarcEsp(strn,patron = re.compile(r'^[a-zA-Z]+$'),tipo = 'nombre'):
+    #while patron.match(strn):
+        #print ('El ' + tipo + ' no puede contener ni caractares especiales ni numeros')
+        #strn = input(tipo +': ')
+    #return strn
         
 
 
