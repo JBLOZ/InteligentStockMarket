@@ -102,12 +102,14 @@ def saveUserPassw(user,passw):
     comprobarUserPassw(user,passw)
 
 def comprobarUserPassw(user,passw):
+    guardado = False
     if passw in c.contrasenas and user in c.usuarios:
         print('Hemos guardado tu usuario y contraseña')
-        return True
+        guardado = True
     else:
         print('No hemos podido guardar tu usuario y contraseña')
-        return False
+        guardado = False
+    return guardado
 
 
 def pedirDatos():
@@ -117,14 +119,17 @@ def pedirDatos():
 
 
 
+comprobarStringCarcEsp('Jordi')
     
     
-    
-#def comprobarStringCarcEsp(strn,patron = re.compile(r'^[a-zA-Z]+$'),tipo = 'nombre'):
-    #while patron.match(strn):
-        #print ('El ' + tipo + ' no puede contener ni caractares especiales ni numeros')
-        #strn = input(tipo +': ')
-    #return strn
+def comprobarStringCarcEsp(strn,tipo = 'nombre'):
+    for i in range (len(strn))
+        if ord(strn.lower[i]) > 97 and ord(strn[i]) < 122:
+            pass
+        else:
+            print(tipo +' no es valido')
+
+    return strn
         
 
 
