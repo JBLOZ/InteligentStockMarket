@@ -71,7 +71,7 @@ def bienvenida(user,passw):
 
 
 
-
+#Oculta la string que quieras con el carácter que quieras
 def ocultarStrings(strn, numCaract=None, caracter="*", posicion="aleatoria"):
     if numCaract is None:
         numCaract = len(strn) // 2
