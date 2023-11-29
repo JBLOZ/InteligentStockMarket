@@ -8,18 +8,22 @@ import re
 
 
 def crearCuenta():
-    
+    enter(2)
+    lineaAlta()
     nombre_usuario = pedirNombre()
     nombre_usuario = comprobarUsuario(nombre_usuario)
+    lineaAlta()
     passw = pedirPassw()
     passw = comprobarPassw(passw,nombre_usuario)
+    enter(2)
     bienvenida(nombre_usuario,passw)
+    enter()
+    lineaBaja()
     saveUserPassw(nombre_usuario,passw)
+    lineaAlta()
+    enter()
+    lineaBaja()
     pedirDatos()
-
-
-
-    
 
 
 
@@ -40,8 +44,9 @@ def comprobarUsuario(nombre_usuario):
         if len(nombre_usuario) < 3:
             print('El nombre de usuario tiene que tener mas de 3 caracteres')
         else:
-            print('Este nombre de usuario ya ha sido usado')    
+            print('Este nombre de usuario ya ha sido usado')
 
+        lineaBaja()    
         nombre_usuario = pedirNombre()
 
     return nombre_usuario
@@ -53,6 +58,7 @@ def pedirPassw():
 
 def comprobarPassw(passw,user):
     while len(passw) < 8 or not any(i.isupper() for i in passw) or not any(i.isdigit() for i in passw) or user.upper() in passw.upper():
+        lineaBaja()
 
         if len(passw) < 8:
             print ('La contrasena debe de tener 8 o mas caracteres')
@@ -62,12 +68,18 @@ def comprobarPassw(passw,user):
             print ('La contrasena debe de tener al menos un numero')
         if user.upper() in passw.upper():
             print ('La contrasena no puede contener tu nombre de usuario')
+        lineaAlta()
         passw = pedirPassw()
+
 
     return passw
 
 def bienvenida(user,passw):
     print('Bienvenido a Inteligent Stock Market ' + user + ', no comparta nunca su contrasena: ' + ocultarStrings(passw))
+
+def bienvenida2(user):
+    print('Bienvenido de nuevo ' + str(user) + 'a Inteligent Stock Market, te echabamos de menos')
+
 
 
 
@@ -98,8 +110,10 @@ def ocultarStrings(strn, numCaract=None, caracter="*", posicion="aleatoria"):
 
 def saveUserPassw(user,passw):
     c.contrasenas.append(passw) 
-    c.usuarios.append(user)
+    c.usuarios.append(user)   
     comprobarUserPassw(user,passw)
+    
+
 
 def comprobarUserPassw(user,passw):
     guardado = False
@@ -113,49 +127,93 @@ def comprobarUserPassw(user,passw):
 
 
 def pedirDatos():
-    c.usuarioNuevo['nombre'] = input('Nombre: ')
-    print(c.usuarioNuevo['nombre'])
-    comprobarStringCarcEsp(c.usuarioNuevo['nombre'])
+    print('DATOS PERSONALES')
+    lineaAlta()
+    pide ('nombre','Nombre: ')
+    pide ('apellidos','Apellidos: ')
+    c.usuarioNuevo['DNI'] = input('DNI: ')
+    while not comprobarStringCarcEsp(c.usuarioNuevo['DNI'],nombre='DNI',tipo='n',num=8): 
+        pass
+        
 
+
+    
+def pide(x='nombre', y='Nombre: '):
+    c.usuarioNuevo[x] = input(y).capitalize()
+    while not comprobarStringCarcEsp(c.usuarioNuevo[x]):
+        lineaBaja()
+        c.usuarioNuevo[x] = input(y).capitalize()
+
+    return usuarioNuevo[x]
+    
+    
 
 
 
     
-def comprobarStringCarcEsp(strn,tipo = 'nombre'):
-    for i in range (len(strn)):
-        if ord(strn.lower[i]) > 97 and ord(strn[i]) < 122:
-            pass
+def comprobarStringCarcEsp(strn, nombre='nombre',tipo = 'l',num = None):
+    if num == None:
+        num = len(strn)
+    
+    valido = False
+    for i in range(num):
+        if tipo == 'l' and 97 <= ord(strn[i].lower()) <= 122:
+            valido = True
+            
+        elif tipo == 'n' and 47 <= ord(strn[i]) <= 57:
+            valido = True
+
         else:
-            print(tipo +' no es valido')
+            print(nombre + ' no válido')
+            valido = False
+            break
 
-    return strn
-        
-
-
-comprobarStringCarcEsp(input(''))
+    return valido
 
 
 
 
 
-def iniciarSesion(usuarios,contrasenas):
-    usuario_iniciando=input('Introduce tu usuario: ')
-    contrasena_iniciando=input('Introduce tu contrasena: ')
-    posUs=1
-    posCo=0
+def iniciarSesion(usuarios = c.usuarios,
+                contrasenas = c.contrasenas,
+                num_tarjeta = c.num_tarjeta,
+                cantidad_dinero = c.cantidad_dinero,
+                balance_mes = c.balance_mes,
+                pin = c.pin,
+                firma_digital = c.firma_digital):
+    enter(2)
+    lineaFlechas()
+    enter(2)
     
-    if usuario_iniciando in usuarios:
-        posUs = usuarios.index(usuario_iniciando)
-        
-        
-    if contrasena_iniciando in contrasenas:
-        posCo= contrasenas.index(contrasena_iniciando)
     
-    if posUs == posCo:
 
-        print('Correcto.')
+    posiciones = False
+    contrasenast = False
+    usuariost = False
+    
+
+    while posiciones==False or contrasenast==False or usuariost==False:
+        usuario_iniciando = input('Introduce el usuario para iniciar sesión: ')
+        contrasena_iniciando = input('Introduce la contraseña para iniciar sesión: ')
+
+        if usuario_iniciando in usuarios and contrasena_iniciando in contrasenas:
+            posUs = usuarios.index(usuario_iniciando)
+            posCo = contrasenas.index(contrasena_iniciando)
+            
+            if posUs == posCo:
+                posiciones = True
+                bienvenida2(c.usuarios[posUs])
+                enter()
+            else:
+                print('Usuario o contraseña inválidos.')
+
+            usuariost = True
+            contrasenast = True
+        else:
+            print('Usuario o contraseña incorrectos.')
 
 
+    return (num_tarjeta[posUs],cantidad_dinero[posUs],num_tarjeta[posUs],cantidad_dinero[posUs],balance_mes[posUs],pin[posUs],firma_digital[posUs])
 
 
 def generar_contrasena():
@@ -181,4 +239,46 @@ def cambiar_contrasena():
 
 
 
+
+def lineaBaja(x=1):
+    for i in range (x):
+        print('____________________________________________________________________________')
+
+def lineaAlta(x=1):
+    for i in range (x):
+        print('¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯')
+
+def lineaFlechas(x=1):
+    for i in range (x):
+        print('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>')
+
+def lineaAsterisco(x=1):
+    for i in range (x):
+        print('****************************************************************************')
+
+def enter(x=1):
+    for i in range (x):
+        print('')
+        
+        
+        
+
+def iniciarSesion_crearCuenta():
+    enter(2)
+    lineaAsterisco()
+    s = input("¿Desea Iniciar sesión o Registrarse? (i/r): ")
+
+    if s=='i':
+        iniciarSesion(c.usuarios,c.contrasenas)
+        
+    elif s=='r':
+        crearCuenta()
+
+    enter(2)
+    lineaAsterisco()
+        
+def aleatorio(x):
+    num=0
+    for i in range(x):
+        num=num + str(random.randint(0,9))
 
