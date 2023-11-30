@@ -174,46 +174,22 @@ def comprobarStringCarcEsp(strn, nombre='nombre',tipo = 'l',num = None):
 
 
 
-def iniciarSesion(usuarios = c.usuarios,
-                contrasenas = c.contrasenas,
-                num_tarjeta = c.num_tarjeta,
-                cantidad_dinero = c.cantidad_dinero,
-                balance_mes = c.balance_mes,
-                pin = c.pin,
-                firma_digital = c.firma_digital):
-    linea(y=2)
-    linea(c='<>',x=37)
-    linea(y=2)
-    
-    
-
-    posiciones = False
-    contrasenast = False
-    usuariost = False
-    
-
-    while posiciones==False or contrasenast==False or usuariost==False:
+def iniciarSesion(informacion_clientes):
+    compru=False
+    while compru==False:
         usuario_iniciando = input('Introduce el usuario para iniciar sesión: ')
         contrasena_iniciando = input('Introduce la contraseña para iniciar sesión: ')
 
-        if usuario_iniciando in usuarios and contrasena_iniciando in contrasenas:
-            posUs = usuarios.index(usuario_iniciando)
-            posCo = contrasenas.index(contrasena_iniciando)
-            
-            if posUs == posCo:
-                posiciones = True
-                bienvenida2(c.usuarios[posUs])
-                linea()
-            else:
-                print('Usuario o contraseña inválidos.')
+        for cliente in informacion_clientes:
+            if cliente['usuario'] == usuario_iniciando and cliente['contraseña'] == contrasena_iniciando:
+                print("Información del usuario:")
+                compru=True
+                
+                for clave, valor in cliente.items():
+                    print(f"{clave}: {valor}")
+                
+        print('Usuario o contraseña incorrectos.')
 
-            usuariost = True
-            contrasenast = True
-        else:
-            print('Usuario o contraseña incorrectos.')
-
-
-    return (num_tarjeta[posUs],cantidad_dinero[posUs],num_tarjeta[posUs],cantidad_dinero[posUs],balance_mes[posUs],pin[posUs],firma_digital[posUs])
 
 
 def generar_contrasena():
