@@ -8,21 +8,21 @@ import re
 
 
 def crearCuenta():
-    enter(2)
-    lineaAlta()
+    linea(y=2)
+    linea(c='¯')
     nombre_usuario = pedirNombre()
     nombre_usuario = comprobarUsuario(nombre_usuario)
-    lineaAlta()
+    linea(c='¯')
     passw = pedirPassw()
     passw = comprobarPassw(passw,nombre_usuario)
-    enter(2)
+    linea(y=2)
     bienvenida(nombre_usuario,passw)
-    enter()
-    lineaBaja()
+    linea(y=2)
+    linea(c='_')
     saveUserPassw(nombre_usuario,passw)
-    lineaAlta()
-    enter()
-    lineaBaja()
+    linea(c='¯')
+    linea()
+    linea(c='_')
     pedirDatos()
 
 
@@ -46,7 +46,7 @@ def comprobarUsuario(nombre_usuario):
         else:
             print('Este nombre de usuario ya ha sido usado')
 
-        lineaBaja()    
+        linea(c='_')    
         nombre_usuario = pedirNombre()
 
     return nombre_usuario
@@ -58,7 +58,7 @@ def pedirPassw():
 
 def comprobarPassw(passw,user):
     while len(passw) < 8 or not any(i.isupper() for i in passw) or not any(i.isdigit() for i in passw) or user.upper() in passw.upper():
-        lineaBaja()
+        linea(c='_')
 
         if len(passw) < 8:
             print ('La contrasena debe de tener 8 o mas caracteres')
@@ -68,7 +68,7 @@ def comprobarPassw(passw,user):
             print ('La contrasena debe de tener al menos un numero')
         if user.upper() in passw.upper():
             print ('La contrasena no puede contener tu nombre de usuario')
-        lineaAlta()
+        linea(c='¯')
         passw = pedirPassw()
 
 
@@ -128,7 +128,7 @@ def comprobarUserPassw(user,passw):
 
 def pedirDatos():
     print('DATOS PERSONALES')
-    lineaAlta()
+    linea(c='¯')
     pide ('nombre','Nombre: ')
     pide ('apellidos','Apellidos: ')
     c.usuarioNuevo['DNI'] = input('DNI: ')
@@ -141,10 +141,10 @@ def pedirDatos():
 def pide(x='nombre', y='Nombre: '):
     c.usuarioNuevo[x] = input(y).capitalize()
     while not comprobarStringCarcEsp(c.usuarioNuevo[x]):
-        lineaBaja()
+        linea(c='_')
         c.usuarioNuevo[x] = input(y).capitalize()
 
-    return usuarioNuevo[x]
+    return c.usuarioNuevo[x]
     
     
 
@@ -181,9 +181,9 @@ def iniciarSesion(usuarios = c.usuarios,
                 balance_mes = c.balance_mes,
                 pin = c.pin,
                 firma_digital = c.firma_digital):
-    enter(2)
-    lineaFlechas()
-    enter(2)
+    linea(y=2)
+    linea(c='<>',x=37)
+    linea(y=2)
     
     
 
@@ -203,7 +203,7 @@ def iniciarSesion(usuarios = c.usuarios,
             if posUs == posCo:
                 posiciones = True
                 bienvenida2(c.usuarios[posUs])
-                enter()
+                linea()
             else:
                 print('Usuario o contraseña inválidos.')
 
@@ -239,33 +239,21 @@ def cambiar_contrasena():
 
 
 
-
-def lineaBaja(x=1):
-    for i in range (x):
-        print('____________________________________________________________________________')
-
-def lineaAlta(x=1):
-    for i in range (x):
-        print('¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯')
-
-def lineaFlechas(x=1):
-    for i in range (x):
-        print('<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>')
-
-def lineaAsterisco(x=1):
-    for i in range (x):
-        print('****************************************************************************')
-
-def enter(x=1):
-    for i in range (x):
-        print('')
+def linea(c='',y=1,x=80):
+    linea = c
+    for i in range (y):
+        for i in range (x):
+            linea = linea + c
+        print(linea)
+        linea = c
+            
         
         
         
 
 def iniciarSesion_crearCuenta():
-    enter(2)
-    lineaAsterisco()
+    linea(y=2)
+    linea(c='*')
     s = input("¿Desea Iniciar sesión o Registrarse? (i/r): ")
 
     if s=='i':
@@ -274,11 +262,10 @@ def iniciarSesion_crearCuenta():
     elif s=='r':
         crearCuenta()
 
-    enter(2)
-    lineaAsterisco()
+    linea(y=2)
+    linea(c='*')
         
 def aleatorio(x):
     num=0
     for i in range(x):
         num=num + str(random.randint(0,9))
-
