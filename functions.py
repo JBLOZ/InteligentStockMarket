@@ -177,7 +177,7 @@ def comprobarStringCarcEsp(strn, nombre='nombre',tipo = 'l',num = None):
 
 def iniciarSesion(informacion_clientes):
     compru=False
-    while compru==False:
+
         usuario_iniciando = input('Introduce el usuario para iniciar sesión: ')
         contrasena_iniciando = input('Introduce la contraseña para iniciar sesión: ')
 
@@ -190,6 +190,7 @@ def iniciarSesion(informacion_clientes):
                     print(f"{clave}: {valor}")
                 
         print('Usuario o contraseña incorrectos.')
+
 
 
 
