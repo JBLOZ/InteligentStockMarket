@@ -203,6 +203,7 @@ def generar_contrasena():
     print(contrasena_generada)
     return contrasena_generada
 
+# Comentario
 def cambiar_contrasena():
     while True:
         contrasena_usuario = input('Introduce la contrasena actual: ')
@@ -248,6 +249,7 @@ def aleatorio(x):
     num=0
     for i in range(x):
         num=num + str(random.randint(0,9))
+
 
 
 def menu(informacion_clientes):
