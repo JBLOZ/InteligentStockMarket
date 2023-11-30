@@ -278,20 +278,23 @@ def menu(informacion_clientes):
 
         elif opcion==3:
             cliente1=int(input('Introduce el número de quién ingresa el dinero: '))
-            cliente2=int(input('Introduce el número de quién recibe el dinero: '))
             sacado=int(input('Introduce el dinero que se va a transferir: '))
-            informacion_clientes[cliente1]['saldo']= informacion_clientes[cliente1]['saldo'] - sacado
-            informacion_clientes[cliente1]['balance del mes']= informacion_clientes[cliente1]['balance del mes'] - sacado
-            informacion_clientes[cliente2]['saldo']= informacion_clientes[cliente2]['saldo'] + sacado
-            informacion_clientes[cliente2]['balance del mes']= informacion_clientes[cliente2]['balance del mes'] + sacado
-            print('*********************************************************')    
-            print('Estado de la cuenta del que ha ingresado: ')
-            for clave, valor in informacion_clientes[cliente1].items():
-                print(f"{clave}: {valor}")
-            print('*********************************************************')    
-            print('Estado de la cuenta del que recibe el dinero: ')
-            for clave, valor in informacion_clientes[cliente2].items():
-                print(f"{clave}: {valor}")
-            mal=True
+            if sacado<=informacion_clientes[cliente1]['saldo']:
+                cliente2=int(input('Introduce el número de quién recibe el dinero: '))
+                informacion_clientes[cliente1]['saldo']= informacion_clientes[cliente1]['saldo'] - sacado
+                informacion_clientes[cliente1]['balance del mes']= informacion_clientes[cliente1]['balance del mes'] - sacado
+                informacion_clientes[cliente2]['saldo']= informacion_clientes[cliente2]['saldo'] + sacado
+                informacion_clientes[cliente2]['balance del mes']= informacion_clientes[cliente2]['balance del mes'] + sacado
+                print('*********************************************************')    
+                print('Estado de la cuenta del que ha ingresado: ')
+                for clave, valor in informacion_clientes[cliente1].items():
+                    print(f"{clave}: {valor}")
+                print('*********************************************************')    
+                print('Estado de la cuenta del que recibe el dinero: ')
+                for clave, valor in informacion_clientes[cliente2].items():
+                    print(f"{clave}: {valor}")
+                mal=True
+            else:
+                print('Fondos insuficientes.')
         else:
             print('Opción incorrecta.')
