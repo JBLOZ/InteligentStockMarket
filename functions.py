@@ -247,3 +247,56 @@ def aleatorio(x):
     num=0
     for i in range(x):
         num=num + str(random.randint(0,9))
+
+informacion_clientes= [{'usuario':'Hugo','contraseña':'micaela','numero de tarjeta':'0123456789012345','saldo':500,'balance del mes':-500},
+                       {'usuario':'Jordi','contraseña':'hola','numero de tarjeta':'9876543210987654','saldo':700,'balance del mes':-250},
+                       {'usuario':'Adrian','contraseña':'rana','numero de tarjeta':'0246802468024680','saldo':900,'balance del mes':-400},
+                       {'usuario':'David','contraseña':'silla','numero de tarjeta':'9753197531953197','saldo':250,'balance del mes':-800},
+                       {'usuario':'Pepe','contraseña':'hola93','numero de tarjeta':'0918273645546372','saldo':340,'balance del mes':-1000}]
+
+def menu(informacion_clientes):
+    print('Menú de opciones:')
+    print('1. Ingresar dinero.')
+    print('2. Sacar dinero.')
+    print('3. Transferir dinero.')
+    mal=False
+
+    while mal==False:
+        opcion=int(input('Elige una opción: '))
+        if opcion==1:
+            cliente = int(input('Introduce el número de cliente: '))
+            ingreso= int(input('Introduce la cantidad a ingresar: '))
+            informacion_clientes[cliente]['saldo'] = informacion_clientes[cliente]['saldo'] + ingreso
+            informacion_clientes[cliente]['balance del mes']= informacion_clientes[cliente]['balance del mes'] + ingreso
+            for clave, valor in informacion_clientes[cliente].items():
+                print(f"{clave}: {valor}")
+            mal=True
+
+        elif opcion==2:
+            cliente = int(input('Introduce el número de cliente: '))
+            sacado= int(input('Introduce la cantidad a ingresar: '))
+            informacion_clientes[cliente]['saldo'] = informacion_clientes[cliente]['saldo'] - sacado
+            informacion_clientes[cliente]['balance del mes']= informacion_clientes[cliente]['balance del mes'] - sacado
+            for clave, valor in informacion_clientes[cliente].items():
+                print(f"{clave}: {valor}")
+            mal=True
+
+        elif opcion==3:
+            cliente1=int(input('Introduce el número de quién ingresa el dinero: '))
+            cliente2=int(input('Introduce el número de quién recibe el dinero: '))
+            sacado=int(input('Introduce el dinero que se va a transferir: '))
+            informacion_clientes[cliente1]['saldo']= informacion_clientes[cliente1]['saldo'] - sacado
+            informacion_clientes[cliente1]['balance del mes']= informacion_clientes[cliente1]['balance del mes'] - sacado
+            informacion_clientes[cliente2]['saldo']= informacion_clientes[cliente2]['saldo'] + sacado
+            informacion_clientes[cliente2]['balance del mes']= informacion_clientes[cliente2]['balance del mes'] + sacado
+            print('*********************************************************')    
+            print('Estado de la cuenta del que ha ingresado: ')
+            for clave, valor in informacion_clientes[cliente1].items():
+                print(f"{clave}: {valor}")
+            print('*********************************************************')    
+            print('Estado de la cuenta del que recibe el dinero: ')
+            for clave, valor in informacion_clientes[cliente2].items():
+                print(f"{clave}: {valor}")
+            mal=True
+        else:
+            print('Opción incorrecta.')
