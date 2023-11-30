@@ -277,6 +277,8 @@ def menu(informacion_clientes):
                 print(f"{clave}: {valor}")
             mal=True
 
+            
+
         elif opcion==3:
             cliente1=int(input('Introduce el número de quién ingresa el dinero: '))
             sacado=int(input('Introduce el dinero que se va a transferir: '))
