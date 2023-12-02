@@ -129,22 +129,23 @@ def comprobarUserPassw(user,passw):
 def pedirDatos():
     print('DATOS PERSONALES')
     linea(c='¯')
-    pide ('nombre','Nombre: ')
-    pide ('apellidos','Apellidos: ')
+    pide (x='nombre',y='Nombre: ')
+    pide (x='apellidos',y='Apellidos: ')
     c.usuarioNuevo['DNI'] = input('DNI: ')
     while not comprobarStringCarcEsp(c.usuarioNuevo['DNI'],nombre='DNI',tipo='n',num=8): 
-        pass
+        c.usuarioNuevo['DNI'] = input('DNI: ')
+    
         
 
 
     
 def pide(x='nombre', y='Nombre: '):
-    c.usuarioNuevo[x] = input(y).capitalize()
-    while not comprobarStringCarcEsp(c.usuarioNuevo[x]):
+    c.usuarioNuevo[f"{x}"] = input(y).capitalize()
+    while not comprobarStringCarcEsp(c.usuarioNuevo[f"{x}"]):
         linea(c='_')
-        c.usuarioNuevo[x] = input(y).capitalize()
+        c.usuarioNuevo[f"{x}"] = input(y).capitalize()
 
-    return c.usuarioNuevo[x]
+    return c.usuarioNuevo[f"{x}"]
     
     
 
@@ -178,18 +179,19 @@ def comprobarStringCarcEsp(strn, nombre='nombre',tipo = 'l',num = None):
 def iniciarSesion(informacion_clientes):
     compru=False
 
-        usuario_iniciando = input('Introduce el usuario para iniciar sesión: ')
-        contrasena_iniciando = input('Introduce la contraseña para iniciar sesión: ')
+    usuario_iniciando = input('Introduce el usuario para iniciar sesión: ')
+    contrasena_iniciando = input('Introduce la contraseña para iniciar sesión: ')
 
-        for cliente in informacion_clientes:
-            if cliente['usuario'] == usuario_iniciando and cliente['contraseña'] == contrasena_iniciando:
-                print("Información del usuario:")
-                compru=True
+    for cliente in informacion_clientes:
+        if cliente['usuario'] == usuario_iniciando and cliente['contraseña'] == contrasena_iniciando:
+            print("Información del usuario:")
+            compru=True
                 
-                for clave, valor in cliente.items():
+            for clave, valor in cliente.items():
                     print(f"{clave}: {valor}")
                 
-        print('Usuario o contraseña incorrectos.')
+    print('Usuario o contraseña incorrectos.')
+    return cliente
 
 
 
@@ -237,7 +239,7 @@ def iniciarSesion_crearCuenta():
     s = input("¿Desea Iniciar sesión o Registrarse? (i/r): ")
 
     if s=='i':
-        iniciarSesion(c.usuarios,c.contrasenas)
+        iniciarSesion(c.informacion_clientes)
         
     elif s=='r':
         crearCuenta()

@@ -8,7 +8,7 @@ informacion_clientes= [{'usuario':'Hugo','contraseña':'micaela','numero de tarj
                        {'usuario':'Pepe','contraseña':'hola93','numero de tarjeta':'0918273645546372','saldo':'340','balance del mes':'-1000'}
                       ]
 
-usuarioNuevo = [{'nombre':'',
+usuarioNuevo = {'nombre':'',
                 'apellidos':'',
                 'CP':'',
                 'tel':'',
@@ -16,6 +16,6 @@ usuarioNuevo = [{'nombre':'',
                 'localidad':'',
                 'direccion':'',
                 'cooreo electronico':'',
-                'DIN':''},
-                {}
-]
+                'DIN':''}
+                
+
