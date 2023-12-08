@@ -11,11 +11,11 @@ informacion_clientes= [{'usuario':'Hugo','contraseña':'micaela','numero de tarj
 usuarioNuevo = {'nombre':'',
                 'apellidos':'',
                 'CP':'',
-                'tel':'',
+                'telefono':'',
                 'provincia':'',
                 'localidad':'',
                 'direccion':'',
-                'cooreo electronico':'',
+                'email':'',
                 'DIN':''}
                 
 

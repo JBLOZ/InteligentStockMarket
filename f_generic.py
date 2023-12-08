@@ -67,11 +67,12 @@ def comprobarStringCarcEsp(strn, nombre='nombre',tipo = 'l',long = None):
         
         elif tipo == 'ln' and (47 <= ord(strn[i]) <= 57 or 97 <= ord(strn[i].lower()) <= 122 or ord(strn[i].lower()) == 32):
             valido = True
-            
+
         else:           
             valido = False
             break
-
+    if tipo == 'e' and '@' in strn and '.' in strn:
+        valido = True
 
     if (long[0] <= len(strn) <= long[1]) and valido:
         valido = True

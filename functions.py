@@ -163,32 +163,33 @@ def pedirDatos():
     pide (x='nombre',y='Nombre: ',z=[3,10])
     pide (x='apellidos',y='Apellidos: ',z=[6,25])
 
-
-    c.usuarioNuevo['DNI'] = input('DNI: ')
-
-    while not (g.comprobarStringCarcEsp(c.usuarioNuevo['DNI'],nombre='DNI',tipo='ln',long=[9,9])):
-                
-        print('DNI no válido')
-        g.linea(c='¯')
-        c.usuarioNuevo['DNI'] = input('DNI: ')
+    pide(x='DNI',y='DNI: ',z=[9,9],carc='ln')
 
     while not (g.comprobarStringCarcEsp(c.usuarioNuevo['DNI'][:8],nombre='DNI',tipo='n') and g.comprobarStringCarcEsp(c.usuarioNuevo['DNI'][8],nombre='DNI',tipo='l')):
         
         print('DNI no válido')
         c.usuarioNuevo['DNI'] = input('DNI: ')
 
-        while not (g.comprobarStringCarcEsp(c.usuarioNuevo['DNI'],nombre='DNI',tipo='ln',long=[9,9])):
-                
-            print('DNI no válido')
-            c.usuarioNuevo['DNI'] = input('DNI: ')
+        pide(x='DNI',y='DNI: ',z=[9,9],carc='ln',first=False)
+    
+    pide (x='telefono',y='Telefono: ',z=[9,9],carc='n')
+    pide (x='email', y='Correo electronico: ', z=[5,35],carc='e')
+    c.actualizaFile(c.file)
 
-       
+    
+    
+    
+
+    
         
 
     
-def pide(x,y,z=None):
-    c.usuarioNuevo[x] = input(y).lower()
-    while not g.comprobarStringCarcEsp(c.usuarioNuevo[x],long=z):
+def pide(x,y,carc='l',z=None,first=True):
+
+    if first:
+        c.usuarioNuevo[x] = input(y).lower()
+
+    while not g.comprobarStringCarcEsp(c.usuarioNuevo[x],long=z,tipo=carc):
         
         if x[-1] == 's':
             print(x.capitalize() + ' invalidos')
