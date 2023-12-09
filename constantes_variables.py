@@ -8,51 +8,51 @@ informacion_clientess= [{'usuario':'Hugo','contraseña':'micaela','numero de tar
                        {'usuario':'Pepe','contraseña':'hola93','numero de tarjeta':'0918273645546372','saldo':'340','balance del mes':'-1000'}
                       ]
 
+def guardartxs():
+    # Inicializa la lista de diccionarios
+    informacion_clientes = []
 
-# Inicializa la lista de diccionarios
-informacion_clientes = []
+    # Nombres de las claves
+    claves = ['usuario',
+            'contraseña',
+            'nombreApellidos',
+            'numero de tarjeta',
+            'IBAN',
+            'saldo',
+            'DNI',
+            'telefono',
+            'email']
 
-# Nombres de las claves
-claves = ['usuario',
-        'contraseña',
-        'nombreApellidos',
-        'numero de tarjeta',
-        'IBAN',
-        'saldo',
-        'DNI',
-        'telefono',
-        'email']
+    # Nombres de los archivos
+    archivos = [
+        'informacionUsuarios/user.txt',
+        'informacionUsuarios/contrasena.txt',
+        'informacionUsuarios/nombreApellidos.txt',
+        'informacionUsuarios/numTargeta.txt',
+        'informacionUsuarios/IBAN.txt',
+        'informacionUsuarios/saldo.txt',
+        'informacionUsuarios/DNI.txt',
+        'informacionUsuarios/telefono.txt',
+        'informacionUsuarios/email.txt'
+    ]
 
-# Nombres de los archivos
-archivos = [
-    'informacionUsuarios/user.txt',
-    'informacionUsuarios/contrasena.txt',
-    'informacionUsuarios/nombreApellidos.txt',
-    'informacionUsuarios/numTargeta.txt',
-    'informacionUsuarios/IBAN.txt',
-    'informacionUsuarios/saldo.txt',
-    'informacionUsuarios/DNI.txt',
-    'informacionUsuarios/telefono.txt',
-    'informacionUsuarios/email.txt'
-]
+    # Itera sobre cada archivo y clave
+    for archivo, clave in zip(archivos, claves):
+        # Inicializa el diccionario para el archivo actual
+        diccionario_actual = {}
 
-# Itera sobre cada archivo y clave
-for archivo, clave in zip(archivos, claves):
-    # Inicializa el diccionario para el archivo actual
-    diccionario_actual = {}
+        # Abre el archivo y lee todas las líneas
+        with open(archivo, 'r') as archivo_actual:
+            lineas = archivo_actual.readlines()
 
-    # Abre el archivo y lee todas las líneas
-    with open(archivo, 'r') as archivo_actual:
-        lineas = archivo_actual.readlines()
+            # Asigna al diccionario con la clave correspondiente
+            diccionario_actual[clave] = [linea.strip() for linea in lineas]
 
-        # Asigna al diccionario con la clave correspondiente
-        diccionario_actual[clave] = [linea.strip() for linea in lineas]
+        # Agrega el diccionario a la lista
+        informacion_clientes.append(diccionario_actual)
 
-    # Agrega el diccionario a la lista
-    informacion_clientes.append(diccionario_actual)
-
-# Imprime la lista de diccionarios
-print(informacion_clientes)
+    # Imprime la lista de diccionarios
+    print(informacion_clientes)
 
 
 
