@@ -16,6 +16,9 @@ usuarioNuevo = {'nombre':'',
                 'localidad':'',
                 'direccion':'',
                 'email':'',
-                'DIN':''}
+                'DNI':''}
+
+
+
                 
 

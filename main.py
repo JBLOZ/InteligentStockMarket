@@ -3,4 +3,5 @@ import random
 import functions as f
 import f_generic as g
 
-f.pedirDatos()
+
+f.iniciarSesion_crearCuenta()

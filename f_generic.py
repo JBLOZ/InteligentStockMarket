@@ -84,6 +84,7 @@ def comprobarStringCarcEsp(strn, nombre='nombre',tipo = 'l',long = None):
 
 
 def aleatorio(x):
-    num=0
+    num='0'
     for i in range(x):
         num=num + str(random.randint(0,9))
+    return num

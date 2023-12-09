@@ -28,6 +28,7 @@ def iniciarSesion(informacion_clientes):
 
     usuario_iniciando = input('Introduce el usuario para iniciar sesión: ')
     contrasena_iniciando = input('Introduce la contraseña para iniciar sesión: ')
+    
 
     for cliente in informacion_clientes:
         if cliente['usuario'] == usuario_iniciando and cliente['contraseña'] == contrasena_iniciando:
@@ -35,9 +36,10 @@ def iniciarSesion(informacion_clientes):
             compru=True
                 
             for clave, valor in cliente.items():
-                    print(f"{clave}: {valor}")
+                print(f"{clave}: {valor}")
                 
-    print('Usuario o contraseña incorrectos.')
+        print('Usuario o contraseña incorrectos.')
+
     return cliente
 
 
@@ -74,15 +76,17 @@ def crearCuenta():
     g.linea(c='¯')
     passw = pedirPassw()
     passw = comprobarPassw(passw,nombre_usuario)
-    g.linea(y=2)
+    g.linea()
+    g.linea(c='_')
     g.bienvenida(nombre_usuario,passw)
-    g.linea(y=2)
+    g.linea(c='¯')
     g.linea(c='_')
     saveUserPassw(nombre_usuario,passw)
     g.linea(c='¯')
-    g.linea()
-    g.linea(c='_')
+
     pedirDatos()
+    generaInfBancaria()
+    
 
     return nombre_usuario, passw
 
@@ -99,7 +103,7 @@ def pedirNombre():
 
 def comprobarUsuario(nombre_usuario):
 
-    while len(nombre_usuario) < 3 or nombre_usuario.capitalize() in c.usuarios:
+    while len(nombre_usuario) < 3 or nombre_usuario.capitalize() in c.informacion_clientes:
 
         if len(nombre_usuario) < 3:
             print('El nombre de usuario tiene que tener mas de 3 caracteres')
@@ -138,19 +142,12 @@ def comprobarPassw(passw,user):
 ########################################################################################
 
 def saveUserPassw(user,passw):
-    c.contrasenas.append(passw) 
-    c.usuarios.append(user)   
-    comprobarGuardado(user,passw)
+    with open ('informacionUsuarios/contrasena.txt', 'ta') as passwtx:
+        passwtx.write(passw + '\n')
+     
+    with open ('informacionUsuarios/user.txt', 'ta') as usertx:
+        usertx.write(user + '\n')
 
-def comprobarGuardado(user,passw):
-    guardado = False
-    if passw in c.contrasenas and user in c.usuarios:
-        print('Hemos guardado tu usuario y contraseña')
-        guardado = True
-    else:
-        print('No hemos podido guardar tu usuario y contraseña')
-        guardado = False
-    return guardado
 
 ########################################################################################
 
@@ -162,7 +159,6 @@ def pedirDatos():
     g.linea(c='¯')
     pide (x='nombre',y='Nombre: ',z=[3,10])
     pide (x='apellidos',y='Apellidos: ',z=[6,25])
-
     pide(x='DNI',y='DNI: ',z=[9,9],carc='ln')
 
     while not (g.comprobarStringCarcEsp(c.usuarioNuevo['DNI'][:8],nombre='DNI',tipo='n') and g.comprobarStringCarcEsp(c.usuarioNuevo['DNI'][8],nombre='DNI',tipo='l')):
@@ -174,9 +170,27 @@ def pedirDatos():
     
     pide (x='telefono',y='Telefono: ',z=[9,9],carc='n')
     pide (x='email', y='Correo electronico: ', z=[5,35],carc='e')
-    c.actualizaFile(c.file)
+    pide (x='CP', y='Codigo postal: ', z=[5,5],carc='n')
+    pide (x='direccion', y='direccion: ', z=[6,30], carc='ln')
+    guardarUserNuevo()
+    print(c.usuarioNuevo['DNI'])
 
     
+
+
+
+def guardarUserNuevo(user=c.usuarioNuevo):
+    with open ('informacionUsuarios/nombreApellidos.txt', 'ta') as nApll:
+        nApll.write(user['nombre'] + ' ' + user['apellidos'] + '\n')
+    with open ('informacionUsuarios/DNI.txt', 'ta') as DNItx:
+        DNItx.write(user['DNI'] + '\n')
+    with open ('informacionUsuarios/telefono.txt', 'ta') as tel:
+        tel.write(user['telefono'] + '\n')
+    with open ('informacionUsuarios/email.txt', 'ta') as email:
+        email.write(user['email'] + '\n')
+
+    
+
     
     
 
@@ -203,7 +217,13 @@ def pide(x,y,carc='l',z=None,first=True):
     
     
 
-
+def generaInfBancaria():
+    with open ('informacionUsuarios/saldo.txt', 'ta') as saldotx:
+        saldotx.write('0' + '\n')
+    with open ('informacionUsuarios/numTargeta.txt', 'ta') as numTartx:
+        numTartx.write(g.aleatorio(16) + '\n')
+    with open ('informacionUsuarios/IBAN.txt', 'ta') as IBANtx:
+        IBANtx.write('ES' + g.aleatorio(22) + '\n')
 
 
 def cambiar_contrasena():
