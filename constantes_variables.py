@@ -19,5 +19,6 @@ usuarioNuevo = {'nombre':'',
                 'DNI':''}
 
 lineatx = 0
+
                 
 
