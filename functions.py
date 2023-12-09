@@ -1,34 +1,98 @@
 import constantes_variables as c
+import f_generic as g
 import random
 import string
 import re
 
 
 
+def iniciarSesion_crearCuenta():
+    g.linea(y=2)
+    g.linea(c='*')
+    s = input("¿Desea Iniciar sesión o Registrarse? (i/r): ")
+
+    if s=='i':
+        iniciarSesion(c.informacion_clientes)
+        
+    elif s=='r':
+        crearCuenta()
+
+    g.linea(y=2)
+    g.linea(c='*')
+        
+########################################################################################
+########################################################################################
+
+def iniciarSesion(informacion_clientes):
+    compru=False
+
+    usuario_iniciando = input('Introduce el usuario para iniciar sesión: ')
+    contrasena_iniciando = input('Introduce la contraseña para iniciar sesión: ')
+    
+
+    for cliente in informacion_clientes:
+        if cliente['usuario'] == usuario_iniciando and cliente['contraseña'] == contrasena_iniciando:
+            print("Información del usuario:")
+            compru=True
+                
+            for clave, valor in cliente.items():
+                print(f"{clave}: {valor}")
+                
+        print('Usuario o contraseña incorrectos.')
+
+    return cliente
+
+
+
+
+def menu(informacion_clientes):
+    print('Menú de opciones:')
+    print('1. Ingresar dinero.')
+    print('2. Sacar dinero.')
+    print('3. Transferir dinero.')
+    mal=False
+
+    while mal==False:
+        opcion=int(input('Elige una opción: '))
+        if opcion==1:
+            op1(informacion_clientes)
+        elif opcion==2:
+            op2(informacion_clientes)
+
+        elif opcion==3:
+            op3(informacion_clientes)
+        else:
+            print('Opción incorrecta.')
+
+########################################################################################
+
 
 
 def crearCuenta():
-    linea(y=2)
-    linea(c='¯')
+    g.linea(y=2)
+    g.linea(c='¯')
     nombre_usuario = pedirNombre()
     nombre_usuario = comprobarUsuario(nombre_usuario)
-    linea(c='¯')
+    g.linea(c='¯')
     passw = pedirPassw()
     passw = comprobarPassw(passw,nombre_usuario)
-    linea(y=2)
-    bienvenida(nombre_usuario,passw)
-    linea(y=2)
-    linea(c='_')
+    g.linea()
+    g.linea(c='_')
+    g.bienvenida(nombre_usuario,passw)
+    g.linea(c='¯')
+    g.linea(c='_')
     saveUserPassw(nombre_usuario,passw)
-    linea(c='¯')
-    linea()
-    linea(c='_')
+    g.linea(c='¯')
+
     pedirDatos()
-
-
+    generaInfBancaria()
+    
 
     return nombre_usuario, passw
 
+
+########################################################################################
+########################################################################################
 
 
 def pedirNombre():
@@ -39,14 +103,14 @@ def pedirNombre():
 
 def comprobarUsuario(nombre_usuario):
 
-    while len(nombre_usuario) < 3 or nombre_usuario.capitalize() in c.usuarios:
+    while len(nombre_usuario) < 3 or nombre_usuario.capitalize() in c.informacion_clientes:
 
         if len(nombre_usuario) < 3:
             print('El nombre de usuario tiene que tener mas de 3 caracteres')
         else:
             print('Este nombre de usuario ya ha sido usado')
 
-        linea(c='_')    
+        g.linea(c='_')    
         nombre_usuario = pedirNombre()
 
     return nombre_usuario
@@ -58,7 +122,7 @@ def pedirPassw():
 
 def comprobarPassw(passw,user):
     while len(passw) < 8 or not any(i.isupper() for i in passw) or not any(i.isdigit() for i in passw) or user.upper() in passw.upper():
-        linea(c='_')
+        g.linea(c='_')
 
         if len(passw) < 8:
             print ('La contrasena debe de tener 8 o mas caracteres')
@@ -68,140 +132,100 @@ def comprobarPassw(passw,user):
             print ('La contrasena debe de tener al menos un numero')
         if user.upper() in passw.upper():
             print ('La contrasena no puede contener tu nombre de usuario')
-        linea(c='¯')
+        g.linea(c='¯')
         passw = pedirPassw()
 
 
     return passw
 
-def bienvenida(user,passw):
-    print('Bienvenido a Inteligent Stock Market ' + user + ', no comparta nunca su contrasena: ' + ocultarStrings(passw))
 
-def bienvenida2(user):
-    print('Bienvenido de nuevo ' + str(user) + 'a Inteligent Stock Market, te echabamos de menos')
-
-
-
-
-
-def ocultarStrings(strn, numCaract=None, caracter="*", posicion="aleatoria"):
-    if numCaract is None:
-        numCaract = len(strn) // 2
-
-    nuevaStr = strn
-
-    if posicion == "aleatoria":
-        for i in range(numCaract):
-            index = random.randint(0, len(nuevaStr) - 1)
-            nuevaStr = nuevaStr[:index] + caracter + nuevaStr[index + 1:]
-    else:
-
-        if posicion == "final":
-            nuevaStr = strn[:len(strn)-numCaract]  
-
-
-        if posicion == "inicio":        
-            nuevaStr = strn[numCaract:]
-        for i in range(numCaract):
-            nuevaStr = caracter + nuevaStr 
-
-    return nuevaStr
-
+########################################################################################
 
 def saveUserPassw(user,passw):
-    c.contrasenas.append(passw) 
-    c.usuarios.append(user)   
-    comprobarUserPassw(user,passw)
-    
+    with open ('informacionUsuarios/contrasena.txt', 'ta') as passwtx:
+        passwtx.write(passw + '\n')
+     
+    with open ('informacionUsuarios/user.txt', 'ta') as usertx:
+        usertx.write(user + '\n')
 
 
-def comprobarUserPassw(user,passw):
-    guardado = False
-    if passw in c.contrasenas and user in c.usuarios:
-        print('Hemos guardado tu usuario y contraseña')
-        guardado = True
-    else:
-        print('No hemos podido guardar tu usuario y contraseña')
-        guardado = False
-    return guardado
+########################################################################################
+
+
 
 
 def pedirDatos():
     print('DATOS PERSONALES')
-    linea(c='¯')
-    pide ('nombre','Nombre: ')
-    pide ('apellidos','Apellidos: ')
-    c.usuarioNuevo['DNI'] = input('DNI: ')
-    while not comprobarStringCarcEsp(c.usuarioNuevo['DNI'],nombre='DNI',tipo='n',num=8): 
-        pass
-        
+    g.linea(c='¯')
+    pide (x='nombre',y='Nombre: ',z=[3,10])
+    pide (x='apellidos',y='Apellidos: ',z=[6,25])
+    pide(x='DNI',y='DNI: ',z=[9,9],carc='ln')
 
+    while not (g.comprobarStringCarcEsp(c.usuarioNuevo['DNI'][:8],nombre='DNI',tipo='n') and g.comprobarStringCarcEsp(c.usuarioNuevo['DNI'][8],nombre='DNI',tipo='l')):
+        
+        print('DNI no válido')
+        c.usuarioNuevo['DNI'] = input('DNI: ')
+
+        pide(x='DNI',y='DNI: ',z=[9,9],carc='ln',first=False)
+    
+    pide (x='telefono',y='Telefono: ',z=[9,9],carc='n')
+    pide (x='email', y='Correo electronico: ', z=[5,35],carc='e')
+    pide (x='CP', y='Codigo postal: ', z=[5,5],carc='n')
+    pide (x='direccion', y='direccion: ', z=[6,30], carc='ln')
+    guardarUserNuevo()
+    print(c.usuarioNuevo['DNI'])
 
     
-def pide(x='nombre', y='Nombre: '):
-    c.usuarioNuevo[x] = input(y).capitalize()
-    while not comprobarStringCarcEsp(c.usuarioNuevo[x]):
-        linea(c='_')
-        c.usuarioNuevo[x] = input(y).capitalize()
+
+
+
+def guardarUserNuevo(user=c.usuarioNuevo):
+    with open ('informacionUsuarios/nombreApellidos.txt', 'ta') as nApll:
+        nApll.write(user['nombre'] + ' ' + user['apellidos'] + '\n')
+    with open ('informacionUsuarios/DNI.txt', 'ta') as DNItx:
+        DNItx.write(user['DNI'] + '\n')
+    with open ('informacionUsuarios/telefono.txt', 'ta') as tel:
+        tel.write(user['telefono'] + '\n')
+    with open ('informacionUsuarios/email.txt', 'ta') as email:
+        email.write(user['email'] + '\n')
+        
+
+    
+
+    
+    
+
+    
+        
+
+    
+def pide(x,y,carc='l',z=None,first=True):
+
+    if first:
+        c.usuarioNuevo[x] = input(y).lower()
+
+    while not g.comprobarStringCarcEsp(c.usuarioNuevo[x],long=z,tipo=carc):
+        
+        if x[-1] == 's':
+            print(x.capitalize() + ' invalidos')
+        else:
+            print(x.capitalize() + ' no valido')
+        g.linea(c='¯')
+
+        c.usuarioNuevo[x] = input(y).lower()
 
     return c.usuarioNuevo[x]
     
     
 
+def generaInfBancaria():
+    with open ('informacionUsuarios/saldo.txt', 'ta') as saldotx:
+        saldotx.write('0' + '\n')
+    with open ('informacionUsuarios/numTargeta.txt', 'ta') as numTartx:
+        numTartx.write(g.aleatorio(16) + '\n')
+    with open ('informacionUsuarios/IBAN.txt', 'ta') as IBANtx:
+        IBANtx.write('ES' + g.aleatorio(22) + '\n')
 
-
-    
-def comprobarStringCarcEsp(strn, nombre='nombre',tipo = 'l',num = None):
-    if num == None:
-        num = len(strn)
-    
-    valido = False
-    for i in range(num):
-        if tipo == 'l' and 97 <= ord(strn[i].lower()) <= 122:
-            valido = True
-            
-        elif tipo == 'n' and 47 <= ord(strn[i]) <= 57:
-            valido = True
-
-        else:
-            print(nombre + ' no válido')
-            valido = False
-            break
-
-    return valido
-
-
-
- 
-
-
-def iniciarSesion(informacion_clientes):
-    compru=False
-
-        usuario_iniciando = input('Introduce el usuario para iniciar sesión: ')
-        contrasena_iniciando = input('Introduce la contraseña para iniciar sesión: ')
-
-        for cliente in informacion_clientes:
-            if cliente['usuario'] == usuario_iniciando and cliente['contraseña'] == contrasena_iniciando:
-                print("Información del usuario:")
-                compru=True
-                
-                for clave, valor in cliente.items():
-                    print(f"{clave}: {valor}")
-                
-        print('Usuario o contraseña incorrectos.')
-
-
-
-
-
-def generar_contrasena():
-    global contrasena_generada
-    lista1 = ['pescado', 'mono', 'ajolote', 'gato']
-    lista2 = ['88', '77', '34', '56']
-    contrasena_generada = random.choice(lista1) + random.choice(lista2)
-    print(contrasena_generada)
-    return contrasena_generada
 
 def cambiar_contrasena():
     while True:
@@ -218,122 +242,94 @@ def cambiar_contrasena():
 
 
 
-def linea(c='',y=1,x=80):
-    linea = c
-    for i in range (y):
-        for i in range (x):
-            linea = linea + c
-        print(linea)
-        linea = c
+
             
         
         
         
 
-def iniciarSesion_crearCuenta():
-    linea(y=2)
-    linea(c='*')
-    s = input("¿Desea Iniciar sesión o Registrarse? (i/r): ")
 
-    if s=='i':
-        iniciarSesion(c.usuarios,c.contrasenas)
+
+
+
+
+def ingreso(informacion_clientes,cliente):
+    ingreso= int(input('Introduce la cantidad a ingresar: '))
+    informacion_clientes[cliente]['saldo'] = int(informacion_clientes[cliente]['saldo']) + ingreso
+    informacion_clientes[cliente]['balance del mes']= int(informacion_clientes[cliente]['balance del mes']) + ingreso
+    print(f"Usuario: {informacion_clientes[cliente]['usuario']}")
+    print(f"Saldo: {informacion_clientes[cliente]['saldo']}")
+    print(f"Balance del mes: {informacion_clientes[cliente]['balance del mes']}")
+    mal=True
+
+def op1 (informacion_clientes):
+    cliente = int(input('Introduce el número de cliente: '))
+    if cliente < 0 or cliente >= len(informacion_clientes):
+        print('Número de usuario inexistente.')
+    else:
+        ingreso(informacion_clientes,cliente)
         
-    elif s=='r':
-        crearCuenta()
-
-    linea(y=2)
-    linea(c='*')
+def sacade(informacion_clientes,cliente,sacado):
+    informacion_clientes[cliente]['saldo'] = int(informacion_clientes[cliente]['saldo']) - sacado
+    informacion_clientes[cliente]['balance del mes']= int(informacion_clientes[cliente]['balance del mes']) - sacado
+    print(f"Usuario: {informacion_clientes[cliente]['usuario']}")
+    print(f"Saldo: {informacion_clientes[cliente]['saldo']}")
+    print(f"Balance del mes: {informacion_clientes[cliente]['balance del mes']}")
+    mal=True       
         
-def aleatorio(x):
-    num=0
-    for i in range(x):
-        num=num + str(random.randint(0,9))
-
-
-def menu(informacion_clientes):
-    print('Menú de opciones:')
-    print('1. Ingresar dinero.')
-    print('2. Sacar dinero.')
-    print('3. Transferir dinero.')
-    mal=False
-
-    while mal==False:
-        opcion=int(input('Elige una opción: '))
-        if opcion==1:
-            cliente = int(input('Introduce el número de cliente: '))
-            ingreso= int(input('Introduce la cantidad a ingresar: '))
-            informacion_clientes[cliente]['saldo'] = int(informacion_clientes[cliente]['saldo']) + ingreso
-            informacion_clientes[cliente]['balance del mes']= int(informacion_clientes[cliente]['balance del mes']) + ingreso
-            print(f"Usuario: {informacion_clientes[cliente]['usuario']}")
-            print(f"Saldo: {informacion_clientes[cliente]['saldo']}")
-            print(f"Balance del mes: {informacion_clientes[cliente]['balance del mes']}")
-
-        elif opcion==2:
-            cliente = int(input('Introduce el número de cliente: '))
-            sacado= int(input('Introduce la cantidad a sacar: '))
-            if sacado<=int(informacion_clientes[cliente]['saldo']):
-                if sacado >= int(informacion_clientes[cliente]['saldo'])/2:
-                    print('Disculpa pero al intentar sacar una cantidad que iguala o supera el 50% de dinero de tu cuenta necesitamos una confirmación.')
-                    comprobacion_contrasena=input('Introduce tu contraseña porfavor: ')
-                    if comprobacion_contrasena==informacion_clientes[cliente]['contraseña']:
-                        informacion_clientes[cliente]['saldo'] = int(informacion_clientes[cliente]['saldo']) - sacado
-                        informacion_clientes[cliente]['balance del mes']= int(informacion_clientes[cliente]['balance del mes']) - sacado
-                        mal=True
-                        print(f"Usuario: {informacion_clientes[cliente]['usuario']}")
-                        print(f"Saldo: {informacion_clientes[cliente]['saldo']}")
-                        print(f"Balance del mes: {informacion_clientes[cliente]['balance del mes']}")
-                    else:
-                        print('Contraseña incorrecta.')
-            else:
-                print('Fondos insuficientes.')
-
-        elif opcion==3:
-            cliente1=int(input('Introduce el número de quién ingresa el dinero: '))
-            if cliente1 < 0 or cliente1 >= len(informacion_clientes):
-                print('Número de usuario inexistente.')
-            else:
-                sacado=int(input('Introduce el dinero que se va a transferir: '))
-                if sacado<=int(informacion_clientes[cliente1]['saldo']):
-                    if sacado >= int(informacion_clientes[cliente1]['saldo'])/2:
-                        print('Disculpa pero al intentar sacar una cantidad que iguala o supera el 50% de dinero de tu cuenta necesitamos una confirmación.')
-                        comprobacion_contrasena=input('Introduce tu contraseña porfavor: ')
-                        if comprobacion_contrasena==informacion_clientes[cliente1]['contraseña']:
-                            cliente2=int(input('Introduce el número de quién recibe el dinero: '))
-                            informacion_clientes[cliente1]['saldo'] = int(informacion_clientes[cliente1]['saldo']) - sacado
-                            informacion_clientes[cliente1]['balance del mes']= int(informacion_clientes[cliente1]['balance del mes']) - sacado
-                            informacion_clientes[cliente2]['saldo']= int(informacion_clientes[cliente2]['saldo']) + sacado
-                            informacion_clientes[cliente2]['balance del mes']= int(informacion_clientes[cliente2]['balance del mes']) + sacado
-                            mal=True
-                            print('*********************************************************')    
-                            print('Estado de la cuenta del que ha ingresado: ')
-                            print(f"Usuario: {informacion_clientes[cliente1]['usuario']}")
-                            print(f"Saldo: {informacion_clientes[cliente1]['saldo']}")
-                            print(f"Balance del mes: {informacion_clientes[cliente1]['balance del mes']}")
-                            print('*********************************************************')    
-                            print('Estado de la cuenta del que recibe el dinero: ')
-                            print(f"Usuario: {informacion_clientes[cliente2]['usuario']}")
-                            print(f"Saldo: {informacion_clientes[cliente2]['saldo']}")
-                            print(f"Balance del mes: {informacion_clientes[cliente2]['balance del mes']}")
-                        else:
-                            print('Contraseña incorrecta.')
-                    else:
-                        cliente2=int(input('Introduce el número de quién recibe el dinero: '))
-                        informacion_clientes[cliente1]['saldo'] = int(informacion_clientes[cliente1]['saldo']) - sacado
-                        informacion_clientes[cliente1]['balance del mes']= int(informacion_clientes[cliente1]['balance del mes']) - sacado
-                        informacion_clientes[cliente2]['saldo']= int(informacion_clientes[cliente2]['saldo']) + sacado
-                        informacion_clientes[cliente2]['balance del mes']= int(informacion_clientes[cliente2]['balance del mes']) + sacado
-                        mal=True
-                        print('*********************************************************')    
-                        print('Estado de la cuenta del que ha ingresado: ')
-                        print(f"Usuario: {informacion_clientes[cliente1]['usuario']}")
-                        print(f"Saldo: {informacion_clientes[cliente1]['saldo']}")
-                        print(f"Balance del mes: {informacion_clientes[cliente1]['balance del mes']}")
-                        print('*********************************************************')    
-                        print('Estado de la cuenta del que recibe el dinero: ')
-                        print(f"Usuario: {informacion_clientes[cliente2]['usuario']}")
-                        print(f"Saldo: {informacion_clientes[cliente2]['saldo']}")
-                        print(f"Balance del mes: {informacion_clientes[cliente2]['balance del mes']}") 
+def op2 (informacion_clientes):
+    cliente = int(input('Introduce el número de cliente: '))
+    if cliente<0 or cliente>=len(informacion_clientes):
+        print('Número de usuario inexistente.')
+    else:
+        sacado= int(input('Introduce la cantidad a sacar: '))
+        if sacado<=int(informacion_clientes[cliente]['saldo']):
+            if sacado >= int(informacion_clientes[cliente]['saldo'])/2:
+                print('Disculpa pero al intentar sacar una cantidad que iguala o supera el 50% de dinero de tu cuenta necesitamos una confirmación.')
+                comprobacion_contrasena=input('Introduce tu contraseña porfavor: ')
+                if comprobacion_contrasena==informacion_clientes[cliente]['contraseña']:
+                    sacade(informacion_clientes,cliente,sacado)
                 else:
-                    print('Fondos insuficientes.')
+                    print('Contraseña incorrecta.')
+            else:
+                sacade(informacion_clientes,cliente,sacado)
+
+
+def cliente1_cliente2 (informacion_clientes,cliente1,sacado):
+    cliente2=int(input('Introduce el número de quién recibe el dinero: '))
+    informacion_clientes[cliente1]['saldo'] = int(informacion_clientes[cliente1]['saldo']) - sacado
+    informacion_clientes[cliente1]['balance del mes']= int(informacion_clientes[cliente1]['balance del mes']) - sacado
+    informacion_clientes[cliente2]['saldo']= int(informacion_clientes[cliente2]['saldo']) + sacado
+    informacion_clientes[cliente2]['balance del mes']= int(informacion_clientes[cliente2]['balance del mes']) + sacado
+    g.linea(str='*')    
+    print('Estado de la cuenta del que ha ingresado: ')
+    print(f"Usuario: {informacion_clientes[cliente1]['usuario']}")
+    print(f"Saldo: {informacion_clientes[cliente1]['saldo']}")
+    print(f"Balance del mes: {informacion_clientes[cliente1]['balance del mes']}")
+    g.linea(str='*')    
+    print('Estado de la cuenta del que recibe el dinero: ')
+    print(f"Usuario: {informacion_clientes[cliente2]['usuario']}")
+    print(f"Saldo: {informacion_clientes[cliente2]['saldo']}")
+    print(f"Balance del mes: {informacion_clientes[cliente2]['balance del mes']}")
+    mal=True
+
+def op3 (informacion_clientes):
+    cliente1=int(input('Introduce el número de quién ingresa el dinero: '))
+    if cliente1 < 0 or cliente1 >= len(informacion_clientes):
+        print('Número de usuario inexistente.')
+    else:
+        sacado=int(input('Introduce el dinero que se va a transferir: '))
+        if sacado<=int(informacion_clientes[cliente1]['saldo']):
+            if sacado >= int(informacion_clientes[cliente1]['saldo'])/2:
+                print('Disculpa pero al intentar sacar una cantidad que iguala o supera el 50% de dinero de tu cuenta necesitamos una confirmación.')
+                comprobacion_contrasena=input('Introduce tu contraseña porfavor: ')
+                if comprobacion_contrasena==informacion_clientes[cliente1]['contraseña']:
+                    cliente1_cliente2(informacion_clientes,cliente1,sacado)
+                else:
+                    print('Contraseña incorrecta.')
+            else:
+                cliente1_cliente2(informacion_clientes,cliente1,sacado)
         else:
-            print('Opción incorrecta.')
+            print('Fondos insuficientes')
+
+
