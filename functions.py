@@ -252,6 +252,7 @@ def cambiar_contrasena():
 
 
 
+
 def ingreso(informacion_clientes,cliente):
     ingreso= int(input('Introduce la cantidad a ingresar: '))
     informacion_clientes[cliente]['saldo'] = int(informacion_clientes[cliente]['saldo']) + ingreso
@@ -292,8 +293,7 @@ def op2 (informacion_clientes):
                     print('Contraseña incorrecta.')
             else:
                 sacade(informacion_clientes,cliente,sacado)
-        else:
-            print('Fondos insuficientes.')
+
 
 def cliente1_cliente2 (informacion_clientes,cliente1,sacado):
     cliente2=int(input('Introduce el número de quién recibe el dinero: '))
