@@ -18,7 +18,6 @@ usuarioNuevo = {'nombre':'',
                 'email':'',
                 'DNI':''}
 
-
-
+lineatx = 0
                 
 

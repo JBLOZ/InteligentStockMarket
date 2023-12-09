@@ -188,6 +188,7 @@ def guardarUserNuevo(user=c.usuarioNuevo):
         tel.write(user['telefono'] + '\n')
     with open ('informacionUsuarios/email.txt', 'ta') as email:
         email.write(user['email'] + '\n')
+        
 
     
 
