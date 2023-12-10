@@ -1,6 +1,7 @@
 import random
 import string
 
+
 claves = [
     'usuario',
     'contraseña',
