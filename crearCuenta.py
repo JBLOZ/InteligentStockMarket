@@ -1,8 +1,9 @@
-import constantes_variables as c
+import constantesVariables as c
 import random
-import functions as f
-import f_generic as g
 
+import funcionesGenericas as g
+
+#FUNCION PRINCIPAL PARA CREAR CUENTA 
 
 def crearCuenta():
     g.linea(y=2)
@@ -20,8 +21,7 @@ def crearCuenta():
     g.linea(c='_')
     g.bienvenida(nombre_usuario,passw)
     g.linea(c='¯')
-    g.linea(c='_')  
-    g.linea(c='¯')
+
 
     pedirDatos()
     saveUserPassw(nombre_usuario,passw)
@@ -32,7 +32,7 @@ def crearCuenta():
 
 
 
-
+#PIDE UN NOMBRE DE USUARIO Y COMPRUEBA QUE CUMPLA CON LOS REQUISITOS
 
 def pedirNombre():
     nombre_usuario = input('Introduce un nombre de usuario: ')
@@ -51,6 +51,9 @@ def comprobarUsuario(nombre_usuario):
         nombre_usuario = pedirNombre()
 
     return nombre_usuario
+
+#PIDE UNA CONTRASEÑA Y COMPRUEBA QUE CUMPLA CON LOS REQUISITOS
+
 
 def pedirPassw():
     passw = input('Introduce una contrasena para la cuenta: ')
@@ -75,7 +78,7 @@ def comprobarPassw(passw,user):
 
     return passw
 
-
+#FUNCIONES PARA GUARDAR LA INFORMACION DE INICIO DE SESION 
 def saveUserPassw(user,passw):
     with open ('informacionUsuarios/contrasena.txt', 'ta') as passwtx:
         passwtx.write(passw + '\n')
@@ -83,6 +86,7 @@ def saveUserPassw(user,passw):
     with open ('informacionUsuarios/user.txt', 'ta') as usertx:
         usertx.write(user + '\n')
 
+#PEDIR EL CONTENIDO DE LOS DATOS PERSONALES Y AUTOMATICAMENTE COMPROBAR QUE CUMPLEN CON LOS REQUISITOS 
 
 def pedirDatos():
     print('DATOS PERSONALES')
@@ -91,8 +95,8 @@ def pedirDatos():
     pide (x='nombre',y='Nombre: ',z=[3,10])
     pide (x='apellidos',y='Apellidos: ',z=[6,25])
     pide(x='DNI',y='DNI: ',z=[9,9],carc='ln')
-
-    while not (g.comprobarStringCarcEsp(c.usuarioNuevo['DNI'][:8],nombre='DNI',tipo='n') and g.comprobarStringCarcEsp(c.usuarioNuevo['DNI'][8],nombre='DNI',tipo='l')):
+    #FUNCION MAS COMPLICADA YA QUE TENEMOS QUE COMPROBAR QUE LOS PRIMEROS 8 CARACTERES SEAN NUMEROS Y QUE EL ULTIMO SEA UNA LETRA, ADEMAS DE QUE EN TOTAL TIENEN QUE SER 9 CIFRAS
+    while not (g.comprobarStringCarcEsp(c.usuarioNuevo['DNI'][:8],tipo='n') and g.comprobarStringCarcEsp(c.usuarioNuevo['DNI'][8],tipo='l')):
         
         print('DNI no válido')
 
@@ -102,12 +106,12 @@ def pedirDatos():
     pide (x='telefono',y='Telefono: ',z=[9,9],carc='n')
     pide (x='email', y='Correo electronico: ', z=[5,35],carc='e')
     pide (x='CP', y='Codigo postal: ', z=[5,5],carc='n')
-    pide (x='direccion', y='direccion: ', z=[6,30], carc='ln')
+    pide (x='direccion', y='Direccion: ', z=[6,30], carc='ln')
 
     guardarUserNuevo()
 
 
-
+# COMPRUEBA SI EL ATRIBUTO CONTIENE UNA S AL FINAL PARA ESCRIBIR SI ES VALIDO O NO USANDO LA FUNCION DE COMPROBAR STRINGS
 def pide(x,y,carc='l',z=None,first=True):
 
     if first:
@@ -125,20 +129,19 @@ def pide(x,y,carc='l',z=None,first=True):
 
     return c.usuarioNuevo[x]
 
-##
-##
-##
+#GENERA LA INFORMACION BANCARIA ALEATORIA COMO EL NUMERO DE LA TARJETA Y INICALIZA LOS VALORES DE SALDO Y BALANCE A 0, GUARDA TODO EN LOS FICHEROS
 
 def generaInfBancaria():
     with open ('informacionUsuarios/saldo.txt', 'ta') as saldotx:
         saldotx.write('0' + '\n')
     with open ('informacionUsuarios/balance.txt', 'ta') as balancetx:
         balancetx.write('0' + '\n')
-    with open ('informacionUsuarios/numTargeta.txt', 'ta') as numTartx:
+    with open ('informacionUsuarios/numTarjeta.txt', 'ta') as numTartx:
         numTartx.write(g.aleatorio(16) + '\n')
     with open ('informacionUsuarios/IBAN.txt', 'ta') as IBANtx:
         IBANtx.write('ES' + g.aleatorio(22) + '\n')
 
+#GUARDA LA INFORMACION RESTANTE EN LOS FICHEROS
 def guardarUserNuevo(user=c.usuarioNuevo):
     with open ('informacionUsuarios/nombreApellidos.txt', 'ta') as nApll:
         nApll.write(user['nombre'] + ' ' + user['apellidos'] + '\n')
