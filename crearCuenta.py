@@ -7,20 +7,24 @@ import f_generic as g
 def crearCuenta():
     g.linea(y=2)
     g.linea(c='¯')
+
     nombre_usuario = pedirNombre()
     nombre_usuario = comprobarUsuario(nombre_usuario)
+
     g.linea(c='¯')
+
     passw = pedirPassw()
     passw = comprobarPassw(passw,nombre_usuario)
+    
     g.linea()
     g.linea(c='_')
     g.bienvenida(nombre_usuario,passw)
     g.linea(c='¯')
-    g.linea(c='_')
-    saveUserPassw(nombre_usuario,passw)
+    g.linea(c='_')  
     g.linea(c='¯')
 
     pedirDatos()
+    saveUserPassw(nombre_usuario,passw)
     generaInfBancaria()
     
 
@@ -36,7 +40,7 @@ def pedirNombre():
 
 def comprobarUsuario(nombre_usuario):
 
-    while len(nombre_usuario) < 3 or nombre_usuario.capitalize() in c.informacion_clientes:
+    while len(nombre_usuario) < 3 or nombre_usuario in c.informacion_clientes['usuario']:
 
         if len(nombre_usuario) < 3:
             print('El nombre de usuario tiene que tener mas de 3 caracteres')
@@ -54,7 +58,7 @@ def pedirPassw():
 
 
 def comprobarPassw(passw,user):
-    while len(passw) < 8 or not any(i.isupper() for i in passw) or not any(i.isdigit() for i in passw) or user.upper() in passw.upper():
+    while len(passw) < 8 or not any(i.isupper() for i in passw) or not any(i.isdigit() for i in passw) or user.lower() in passw.lower():
         g.linea(c='_')
 
         if len(passw) < 8:
@@ -83,6 +87,7 @@ def saveUserPassw(user,passw):
 def pedirDatos():
     print('DATOS PERSONALES')
     g.linea(c='¯')
+
     pide (x='nombre',y='Nombre: ',z=[3,10])
     pide (x='apellidos',y='Apellidos: ',z=[6,25])
     pide(x='DNI',y='DNI: ',z=[9,9],carc='ln')
@@ -90,16 +95,18 @@ def pedirDatos():
     while not (g.comprobarStringCarcEsp(c.usuarioNuevo['DNI'][:8],nombre='DNI',tipo='n') and g.comprobarStringCarcEsp(c.usuarioNuevo['DNI'][8],nombre='DNI',tipo='l')):
         
         print('DNI no válido')
-        c.usuarioNuevo['DNI'] = input('DNI: ')
 
+        c.usuarioNuevo['DNI'] = input('DNI: ')
         pide(x='DNI',y='DNI: ',z=[9,9],carc='ln',first=False)
     
     pide (x='telefono',y='Telefono: ',z=[9,9],carc='n')
     pide (x='email', y='Correo electronico: ', z=[5,35],carc='e')
     pide (x='CP', y='Codigo postal: ', z=[5,5],carc='n')
     pide (x='direccion', y='direccion: ', z=[6,30], carc='ln')
+
     guardarUserNuevo()
-    print(c.usuarioNuevo['DNI'])
+
+
 
 def pide(x,y,carc='l',z=None,first=True):
 
@@ -125,6 +132,8 @@ def pide(x,y,carc='l',z=None,first=True):
 def generaInfBancaria():
     with open ('informacionUsuarios/saldo.txt', 'ta') as saldotx:
         saldotx.write('0' + '\n')
+    with open ('informacionUsuarios/balance.txt', 'ta') as balancetx:
+        balancetx.write('0' + '\n')
     with open ('informacionUsuarios/numTargeta.txt', 'ta') as numTartx:
         numTartx.write(g.aleatorio(16) + '\n')
     with open ('informacionUsuarios/IBAN.txt', 'ta') as IBANtx:
