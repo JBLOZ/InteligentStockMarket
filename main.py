@@ -1,7 +1,6 @@
-import constantes_variables as c
+import constantesVariables as c
 import random
 import functions as f
-import f_generic as g
-
+import funcionesGenericas as g
 
 f.iniciarSesion_crearCuenta()

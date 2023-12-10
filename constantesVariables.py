@@ -19,7 +19,7 @@ archivos = [
     'informacionUsuarios/user.txt',
     'informacionUsuarios/contrasena.txt',
     'informacionUsuarios/nombreApellidos.txt',
-    'informacionUsuarios/numTargeta.txt',
+    'informacionUsuarios/numTarjeta.txt',
     'informacionUsuarios/IBAN.txt',
     'informacionUsuarios/saldo.txt',
     'informacionUsuarios/balance.txt',
@@ -52,7 +52,7 @@ def leerArchivos():
             informacion_clientes[clave] = [linea.strip() for linea in lineas]
 
 
-def escribir_en_archivos(informacion_clientes=informacion_clientes, archivos=archivos):
+def escribir_en_archivos():
     for clave, archivo in zip(informacion_clientes.keys(), archivos):
         with open(archivo, 'w') as archivo_actual:
             for elemento in informacion_clientes[clave]:

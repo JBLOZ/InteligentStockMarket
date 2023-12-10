@@ -1,19 +1,25 @@
-import constantes_variables as c
+import constantesVariables as c
 import random
 
 
+#AQUI SE GUARDAN TODAS LAS FUNCIOONES GENERALES
 
 
 
 
-
+#BIENVENIDA A USUARIOS QUE ACABAN DE REISTRARSE
 
 def bienvenida(user,passw):
     print('Bienvenido a Inteligent Stock Market ' + user + ', no comparta nunca su contrasena: ' + ocultarStrings(passw))
+    linea(c='¯')
+
+#BIENVENIDA A USUARIOS QUE ACABAN DE INICIAR SESION
 
 def bienvenida2(user):
     print('Bienvenido de nuevo ' + str(user) + 'a Inteligent Stock Market, te echabamos de menos')
+    linea('_')
 
+#GENERADOR DE LINEAS AL GUSTO, OPCION DE MODIFICAR EL TAMAÑO Y LA CANTIDAD DE LAS LINEAS, ASI COMO EL CARACTER QUE LA COMPONGA
 def linea(c='',y=1,x=80):
     linea = c
     for i in range (y):
@@ -24,8 +30,7 @@ def linea(c='',y=1,x=80):
 
 
 
-
-
+#OCULTA CADENAS DE TEXTO AL GUSTO, OPCION DE MODIFICAR EL CARACTER QUE LAS OCULTA, LA POSICION Y LA CANTIDAD DE CARACTERES OCULTOS 
 
 def ocultarStrings(strn, numCaract=None, caracter="*", posicion="aleatoria"):
     if numCaract is None:
@@ -50,8 +55,11 @@ def ocultarStrings(strn, numCaract=None, caracter="*", posicion="aleatoria"):
 
     return nuevaStr
 
+#FUNCION QUE SE HIZO PRINCIPALMENTE PARA COMPROBAR SI UNA STRING TENIA CARACTERES ESPECIALES Y CON FORME 
+# HEMOS NECESITADO MAS COMPROBACIONES Y FUNCIONES LAS HEMOS INSERTADO COMO LA DE LONIGTUD DE UNA STRINGS O 
+# LA DE COMPROBAR SI UNA ESTRING ES NUMERICA O SI CONTIENE UNA ARROBA Y UN PUNTO PARA LOS EMAILS
 
-def comprobarStringCarcEsp(strn, nombre='nombre',tipo = 'l',long = None):
+def comprobarStringCarcEsp(strn,tipo = 'l',long = None):
 
     if long == None:
         long = [0,50]
@@ -81,10 +89,14 @@ def comprobarStringCarcEsp(strn, nombre='nombre',tipo = 'l',long = None):
 
     return valido
 
-
+#FUNCION QUE GENERA STRINGS DE X CIFRAS NUMERICAS 
 
 def aleatorio(x):
-    num='0'
+    num=''
     for i in range(x):
         num=num + str(random.randint(0,9))
     return num
+
+def stringEsp(strn,salto=4):
+    strnEsp = ' '.join([strn[i:i+salto] for i in range(0, len(strn), salto)])
+    return strnEsp
