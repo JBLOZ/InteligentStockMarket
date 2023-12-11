@@ -122,7 +122,7 @@ def menu(cliente):
         elif opcion=='2':
             op2_sacar(cliente)
         elif opcion=='3':
-            if(not c.informacion_clientes['saldo'][cliente] == '0'):
+            if(int(c.informacion_clientes['saldo'][cliente]) > 0):
                 op3_transferir(cliente)
             else:
                 print('No se pueden hacer trasferencias sin dinero, imagínate que tienes cero galletas y la repartes entre cero amigos.')
@@ -206,28 +206,30 @@ def sacarDinero(cliente,cantidad):
 def op3_transferir (cliente):
 
     cobrador = bizumTransferencia()
+    s = input('Desea transferir dinero a ' + c.informacion_clientes['nombreApellidos'][cobrador] + ' ? (s/n): ')
+    if s.upper() == 'S':
 
-    cantidad = int(input('Introduce el dinero que se va a transferir: '))
+        cantidad = int(input('Introduce el dinero que se va a transferir: '))
 
-    g.linea('_')
+        g.linea('_')
 
-    while not (cantidad <= int(c.informacion_clientes['saldo'][cliente])):
-        print('Fondos insuficientes')
-        cantidad = int(input('Vuelva a introducir el importe, siempre menor a su saldo de ' + str(c.informacion_clientes['saldo'][cliente])+ '€: '))
+        while not (cantidad <= int(c.informacion_clientes['saldo'][cliente])):
+            print('Fondos insuficientes')
+            cantidad = int(input('Vuelva a introducir el importe, siempre menor a su saldo de ' + str(c.informacion_clientes['saldo'][cliente])+ '€: '))
 
 
-    if cantidad >= int(c.informacion_clientes['saldo'][cliente])/2:
-        print('Disculpa pero al intentar sacar una cantidad que iguala o supera el 50% de dinero de tu cuenta necesitamos una confirmación.')
+        if cantidad >= int(c.informacion_clientes['saldo'][cliente])/2:
+            print('Disculpa pero al intentar sacar una cantidad que iguala o supera el 50% de dinero de tu cuenta necesitamos una confirmación.')
 
-        if falloContraseñas(cliente):
-            return
+            if falloContraseñas(cliente):
+                return
+            else:
+                traspaso(cliente,cobrador,cantidad)
+            
         else:
             traspaso(cliente,cobrador,cantidad)
-            
-    else:
-        traspaso(cliente,cobrador,cantidad)
-
     return
+
 
 #FUNCION QUE SIRVE PARA COMPARAR Y BUSCAR POR NUMERO O POR IBAN PARA HACER UN TRASPASO DE DINERO A OTRA CUENTA
 

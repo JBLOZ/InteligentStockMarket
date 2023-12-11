@@ -31,7 +31,6 @@ def iniciarSesion_crearCuenta():
         
         elif s=='s':
 
-            g.linea(y=2)
             g.linea(c='*')
             salir = True
         
