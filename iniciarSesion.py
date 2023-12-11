@@ -142,7 +142,8 @@ def menu(cliente):
 
 
 
-    
+#A CONTINUACION ESTAN TODAS LAS OPCIONES DEL MENU, HACEN OPERACIONES CON EL DICCIONARIO DE LISTAS (INFORMACION_CLIENTES) Y 
+#VUELVEN AL MENU PRINCIPAL DONDE SE ESCRIBEN EN LOS FICHEROS LA INFORMACION RECOLECTADA  
 
 def op1_ingreso(cliente):
     ingreso= int(input('Introduce la cantidad a ingresar: '))
@@ -228,6 +229,7 @@ def op3_transferir (cliente):
 
     return
 
+#FUNCION QUE SIRVE PARA COMPARAR Y BUSCAR POR NUMERO O POR IBAN PARA HACER UN TRASPASO DE DINERO A OTRA CUENTA
 
 def bizumTransferencia():
 
