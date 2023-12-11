@@ -153,8 +153,8 @@ def op1_ingreso(cliente):
     c.informacion_clientes['balance del mes'][cliente]= int(c.informacion_clientes['balance del mes'][cliente]) + ingreso
 
     print(f"Usuario: {c.informacion_clientes['usuario'][cliente]}")
-    print(f"Saldo: {c.informacion_clientes['saldo'][cliente]}")
-    print(f"Balance del mes: {c.informacion_clientes['balance del mes'][cliente]}")
+    print(f"Saldo: {str(c.informacion_clientes['saldo'][cliente])}")
+    print(f"Balance del mes: {str(c.informacion_clientes['balance del mes'][cliente])}")
     g.linea()
 
     return
@@ -192,8 +192,8 @@ def sacarDinero(cliente,cantidad):
     c.informacion_clientes['balance del mes'][cliente]= int(c.informacion_clientes['balance del mes'][cliente]) - cantidad
 
     print(f"Usuario: {c.informacion_clientes['usuario'][cliente]}")
-    print(f"Saldo: {c.informacion_clientes['saldo'][cliente]}")
-    print(f"Balance del mes: {c.informacion_clientes['balance del mes'][cliente]}")
+    print(f"Saldo: {str(c.informacion_clientes['saldo'][cliente])}")
+    print(f"Balance del mes: {str(c.informacion_clientes['balance del mes'][cliente])}")
     g.linea()    
 
     return
@@ -275,8 +275,8 @@ def traspaso (cliente,cobrador,cantidad):
     g.linea('*')    
     print('ESTADISTICAS DE SU CUENTA: ')
     print(f"Usuario: {c.informacion_clientes['usuario'][cliente]}")
-    print(f"Saldo: {c.informacion_clientes['saldo'][cliente]}")
-    print(f"Balance del mes: {c.informacion_clientes['balance del mes'][cliente]}")
+    print(f"Saldo: {str(c.informacion_clientes['saldo'][cliente])}")
+    print(f"Balance del mes: {str(c.informacion_clientes['balance del mes'][cliente])}")
     g.linea('*') 
 
     return   
