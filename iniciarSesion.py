@@ -85,7 +85,7 @@ def menu(cliente):
         print('3. Transferir dinero.')
         print('4. Informacion de la cuenta')
         print('5. Cambiar contraseña')
-        print('S. Salir')
+        print('6. Salir')
         g.linea('_')
 
         opcion=input('Elige una opción: ')
@@ -102,7 +102,7 @@ def menu(cliente):
             op4_info(cliente)
         elif opcion == '5':
             op5_cambiar_contraseña(cliente)
-        elif opcion.upper() == 'S':
+        elif opcion == '6':
             c.salgo = True
         else:
             print('Opción incorrecta.')
