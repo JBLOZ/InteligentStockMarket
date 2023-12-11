@@ -287,6 +287,7 @@ def op4_info(cliente):
                 g.linea('_')
                 n = n + 1
             infoCuenta(cliente,oculto=False)
+            n = 4
 
         g.linea('*',y=2)
         print('FALLASTE DEMASIADAS VECES LA CONTRASEÑA, TENDRAS QUE VOLVER A INICIAR SESION')
