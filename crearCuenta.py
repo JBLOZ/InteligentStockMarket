@@ -1,6 +1,6 @@
 import constantesVariables as c
 import random
-
+from datetime import datetime
 import funcionesGenericas as g
 
 #FUNCION PRINCIPAL PARA CREAR CUENTA 
@@ -20,7 +20,7 @@ def crearCuenta():
     g.linea()
     g.linea(c='_')
     g.bienvenida(nombre_usuario,passw)
-    g.linea(c='¯')
+
 
 
     pedirDatos()
@@ -28,7 +28,7 @@ def crearCuenta():
     generaInfBancaria()
     
 
-    return nombre_usuario, passw
+    return
 
 
 
@@ -136,6 +136,14 @@ def generaInfBancaria():
         saldotx.write('0' + '\n')
     with open ('informacionUsuarios/balance.txt', 'ta') as balancetx:
         balancetx.write('0' + '\n')
+
+    fechaHoy = datetime.now()
+    fechaAñoStr = (int(fechaHoy.strftime('%Y')) + 7)
+    fechaMesStr = (fechaHoy.strftime('%m'))
+    fechaMesAñoStr = fechaMesStr + '/' + str(fechaAñoStr)[2:]
+
+    with open ('informacionUsuarios/fechaCaducidad.txt', 'ta') as fechCadtx:
+        fechCadtx.write(fechaMesAñoStr + '\n')
     with open ('informacionUsuarios/numTarjeta.txt', 'ta') as numTartx:
         numTartx.write(g.aleatorio(16) + '\n')
     with open ('informacionUsuarios/IBAN.txt', 'ta') as IBANtx:
