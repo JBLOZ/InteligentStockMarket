@@ -149,8 +149,8 @@ def op1_ingreso(cliente):
     ingreso= int(input('Introduce la cantidad a ingresar: '))
     g.linea('_')
 
-    c.informacion_clientes['saldo'][cliente] = int(c.informacion_clientes['saldo'][cliente]) + ingreso
-    c.informacion_clientes['balance del mes'][cliente]= int(c.informacion_clientes['balance del mes'][cliente]) + ingreso
+    c.informacion_clientes['saldo'][cliente] = str(int(c.informacion_clientes['saldo'][cliente]) + ingreso)
+    c.informacion_clientes['balance del mes'][cliente]= str(int(c.informacion_clientes['balance del mes'][cliente]) + ingreso)
 
     print(f"Usuario: {c.informacion_clientes['usuario'][cliente]}")
     print(f"Saldo: {str(c.informacion_clientes['saldo'][cliente])}")
@@ -174,8 +174,9 @@ def op2_sacar (cliente):
         cantidad = int(input('Introduce una cantidad menor a tu saldo de ' + str(c.informacion_clientes['saldo'][cliente]) + '€: '))
 
     if cantidad >= int(c.informacion_clientes['saldo'][cliente])/2:
-        print('Disculpa pero al intentar sacar una cantidad que iguala o supera el 50% de dinero de tu cuenta necesitamos una confirmación.')
-
+        print('Disculpa pero al intentar obtener una cantidad que iguala o supera el 50% de dinero')
+        print('de tu cuenta necesitamos una confirmación.')
+        g.linea(c='¯')
         if falloContraseñas(cliente):
             return
         else:
@@ -188,8 +189,8 @@ def op2_sacar (cliente):
 
 
 def sacarDinero(cliente,cantidad):
-    c.informacion_clientes['saldo'][cliente] = int(c.informacion_clientes['saldo'][cliente]) - cantidad
-    c.informacion_clientes['balance del mes'][cliente]= int(c.informacion_clientes['balance del mes'][cliente]) - cantidad
+    c.informacion_clientes['saldo'][cliente] = str(int(c.informacion_clientes['saldo'][cliente]) - cantidad)
+    c.informacion_clientes['balance del mes'][cliente]= str(int(c.informacion_clientes['balance del mes'][cliente]) - cantidad)
 
     print(f"Usuario: {c.informacion_clientes['usuario'][cliente]}")
     print(f"Saldo: {str(c.informacion_clientes['saldo'][cliente])}")
@@ -206,7 +207,7 @@ def sacarDinero(cliente,cantidad):
 def op3_transferir (cliente):
 
     cobrador = bizumTransferencia()
-    s = input('Desea transferir dinero a ' + c.informacion_clientes['nombreApellidos'][cobrador] + ' ? (s/n): ')
+    s = input('Desea transferir dinero a ' + c.informacion_clientes['nombreApellidos'][cobrador].upper() + ' ? (s/n): ')
     if s.upper() == 'S':
 
         cantidad = int(input('Introduce el dinero que se va a transferir: '))
@@ -219,7 +220,9 @@ def op3_transferir (cliente):
 
 
         if cantidad >= int(c.informacion_clientes['saldo'][cliente])/2:
-            print('Disculpa pero al intentar sacar una cantidad que iguala o supera el 50% de dinero de tu cuenta necesitamos una confirmación.')
+            print('Disculpa pero al intentar transferir una cantidad que iguala o supera el 50% de dinero')
+            print('de tu cuenta necesitamos una confirmación.')
+            g.linea(c='¯')
 
             if falloContraseñas(cliente):
                 return
@@ -267,12 +270,12 @@ def bizumTransferencia():
 
 def traspaso (cliente,cobrador,cantidad):
     
-    c.informacion_clientes['saldo'][cliente] = int(c.informacion_clientes['saldo'][cliente]) - cantidad
-    c.informacion_clientes['balance del mes'][cliente]= int(c.informacion_clientes['balance del mes'][cliente]) - cantidad
+    c.informacion_clientes['saldo'][cliente] = str(int(c.informacion_clientes['saldo'][cliente]) - cantidad)
+    c.informacion_clientes['balance del mes'][cliente]= str(int(c.informacion_clientes['balance del mes'][cliente]) - cantidad)
 
 
-    c.informacion_clientes['saldo'][cobrador]= int(c.informacion_clientes['saldo'][cobrador]) + cantidad
-    c.informacion_clientes['balance del mes'][cobrador]= int(c.informacion_clientes['balance del mes'][cobrador]) + cantidad
+    c.informacion_clientes['saldo'][cobrador]= str(int(c.informacion_clientes['saldo'][cobrador]) + cantidad)
+    c.informacion_clientes['balance del mes'][cobrador]= str(int(c.informacion_clientes['balance del mes'][cobrador]) + cantidad)
 
     g.linea('*')    
     print('ESTADISTICAS DE SU CUENTA: ')
@@ -316,6 +319,7 @@ def falloContraseñas(cliente,fallos=3):
     while passw != c.informacion_clientes['contraseña'][cliente]:
 
         print('Contraseña incorrecta.')
+        g.linea('_')
         if n == (fallos-1):
             g.linea()
             g.linea('<>',x=39)
@@ -326,6 +330,6 @@ def falloContraseñas(cliente,fallos=3):
             c.salgo = True
             return True
             
-        passw=input('Introduce tu contraseña porfavor: ')
+        passw=input('Introduce tu contraseña por favor: ')
         n = n + 1
     return False
