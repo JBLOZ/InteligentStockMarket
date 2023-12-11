@@ -16,7 +16,7 @@ def bienvenida(user,passw):
 #BIENVENIDA A USUARIOS QUE ACABAN DE INICIAR SESION
 
 def bienvenida2(user):
-    print('Bienvenido de nuevo ' + str(user) + 'a Inteligent Stock Market, te echabamos de menos')
+    print('Bienvenido de nuevo ' + str(user) + ' a Inteligent Stock Market, te echabamos de menos')
     linea('_')
 
 #GENERADOR DE LINEAS AL GUSTO, OPCION DE MODIFICAR EL TAMAÑO Y LA CANTIDAD DE LAS LINEAS, ASI COMO EL CARACTER QUE LA COMPONGA

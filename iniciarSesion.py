@@ -4,7 +4,8 @@ import crearCuenta as CC
 import random
 
 
-
+#FUNCION PRINCIPAL DE INICIAR SESION, COMPRUEBA QUE LA CONTRASEÑA COINCIDA CON EL USUARIO Y 
+#DEVUELVE EL NUMERO DE CLIENTE QUE CORRESPONDERÁ AL HUECO DE LA LISTA DE LOS VALORES DEL DICCIONARIO EN LA QUE ESTARAN GUARDADOS LOS DATOS DE LOS USUARIOS
 
 def iniciarSesion():
     
@@ -15,6 +16,7 @@ def iniciarSesion():
     g.linea()
     g.bienvenida2(c.informacion_clientes['usuario'][cliente])
     infoCuenta(cliente)
+    
     g.linea()
     menu(cliente)
 
@@ -37,9 +39,8 @@ def comprobarCredenciales():
             if c.informacion_clientes['usuario'][i] == usuario_iniciando and c.informacion_clientes['contraseña'][i] == contrasena_iniciando:
                 cliente = i
 
-                print("INFORMACION DEL USUARIO:")
-                infoCuenta(cliente)
                 
+
 
                 return cliente
      
@@ -50,13 +51,14 @@ def comprobarCredenciales():
     return None    
                 
 
-
+#PROPORCIONA LA INFORMACION DE LA CUENTA DEL CLIENTE QUE HA INICIADO SESION 
 
 def infoCuenta(cliente,oculto=True):
+    print("INFORMACION DEL USUARIO")
     print(c.informacion_clientes['nombreApellidos'][cliente].upper())
     g.linea()
     
-    print('╔'+ '═════════════════════════════════════════════════════════════════' + '╗')
+    print('╔═════════════════════════════════════════════════════════════════╗')
     
     print('║' + 'USUARIO: ' + c.informacion_clientes['usuario'][cliente], end = ' ') 
     print((64-(len('USUARIO: ') + len(c.informacion_clientes['usuario'][cliente]))) * ' ' + '║')
@@ -71,11 +73,17 @@ def infoCuenta(cliente,oculto=True):
         print('║' +'NUMERO DE TARJETA: ' + g.stringEsp(g.ocultarStrings(c.informacion_clientes['numero de tarjeta'][cliente],posicion='inicio',numCaract=12)),end='')
         print((62-(len('NUMERO DE TARJETA: ') + len(c.informacion_clientes['numero de tarjeta'][cliente]))) * ' ' + '║')
 
+        print('║' +'FECHA DE CADUCIDAD: ' + g.ocultarStrings(c.informacion_clientes['fechaCaducidad'][cliente],posicion='inicio',numCaract=5),end='')
+        print((65-(len('FECHA DE CADUCIDAD: ') + len(c.informacion_clientes['fechaCaducidad'][cliente]))) * ' ' + '║')
+
         print('║' +'IBAN: ' + g.stringEsp(g.ocultarStrings(c.informacion_clientes['IBAN'][cliente],posicion='inicio',numCaract=16),salto=8),end='')
         print((63-(len('IBAN: ') + len(c.informacion_clientes['IBAN'][cliente]))) * ' ' + '║')
     else:
         print('║' +'NUMERO DE TARJETA: ' + g.stringEsp(c.informacion_clientes['numero de tarjeta'][cliente]),end='')
         print((62-(len('NUMERO DE TARJETA: ') + len(c.informacion_clientes['numero de tarjeta'][cliente]))) * ' ' + '║')
+
+        print('║' +'FECHA DE CADUCIDAD: ' + c.informacion_clientes['fechaCaducidad'][cliente],end='')
+        print((65-(len('FECHA DE CADUCIDAD: ') + len(c.informacion_clientes['fechaCaducidad'][cliente]))) * ' ' + '║')
         
         print('║' +'IBAN: ' + g.stringEsp(c.informacion_clientes['IBAN'][cliente],salto=8),end='')
         print((63-(len('IBAN: ') + len(c.informacion_clientes['IBAN'][cliente]))) * ' ' + '║')
@@ -83,26 +91,27 @@ def infoCuenta(cliente,oculto=True):
     print('║' +'BALANCE DEL MES: ' + str(c.informacion_clientes['balance del mes'][cliente]) + '€',end='')
     print((64-(len('BALANCE DEL MES: ') + len(c.informacion_clientes['balance del mes'][cliente]))) * ' ' + '║')
     
-    print('╚'+ '═════════════════════════════════════════════════════════════════' + '╝')
+    print('╚═════════════════════════════════════════════════════════════════╝')
 
 
+#MUESTRA EL MENU DE OPCIONES PARA EL USUARIO Y LLAMA A LAS FUNCIONES QUE EL USUARIO TIENE A SU DISPOSICION
 
 def menu(cliente):
     
-   
-
-
     while c.salgo==False:
 
         c.escribir_en_archivos()
-        print('Menú de opciones:')
-        print('1. Ingresar dinero.')
-        print('2. Sacar dinero.')
-        print('3. Transferir dinero.')
-        print('4. Informacion de la cuenta')
-        print('5. Cambiar contraseña')
-        print('6. Salir')
-        g.linea('_')
+        g.linea()
+        print('╔═════════════════════════════════════════════════════════════════╗')
+        print('║                       MENU DE OPCIONES                          ║')
+        print('╠═════════════════════════════════════════════════════════════════╣')
+        print('║                (1)     Ingresar dinero                          ║')
+        print('║                (2)      Sacar dinero                            ║')
+        print('║                (3)    Transferir dinero                         ║')
+        print('║                (4) Informacion de la cuenta                     ║')
+        print('║                (5)    Cambiar contraseña                        ║')
+        print('║                (6)          Salir                               ║')
+        print('╚═════════════════════════════════════════════════════════════════╝')
 
         opcion=input('Elige una opción: ')
 
@@ -113,7 +122,13 @@ def menu(cliente):
         elif opcion=='2':
             op2_sacar(cliente)
         elif opcion=='3':
-            op3_transferir(cliente)
+            if(not c.informacion_clientes['saldo'][cliente] == '0'):
+                op3_transferir(cliente)
+            else:
+                print('No se pueden hacer trasferencias sin dinero, imagínate que tienes cero galletas y la repartes entre cero amigos.')
+                print('¿Cuántas galletas le tocan a cada amigo? No tiene sentido, ¿lo ves? Intenta conseguir alguna galleta antes de que') 
+                print('el mounstruo de las galletas se coma a los pocos amigos que te quedan por no tener galletas para darle.')
+            
         elif opcion=='4':
             op4_info(cliente)
         elif opcion == '5':
@@ -159,23 +174,11 @@ def op2_sacar (cliente):
 
     if cantidad >= int(c.informacion_clientes['saldo'][cliente])/2:
         print('Disculpa pero al intentar sacar una cantidad que iguala o supera el 50% de dinero de tu cuenta necesitamos una confirmación.')
-        passw=input('Introduce tu contraseña porfavor: ')
-        n = 0
 
-        while passw != c.informacion_clientes['contraseña'][cliente]:
-            print('Contraseña incorrecta.')
-            if n == 3:
-                print('Volveras a la pagina de inicio de sesion para la mayor seguridad de tu cuenta')
-                g.linea('_')
-                c.salgo = True
-                return 
-            
-            passw = input('Introduce tu contraseña porfavor: ')
-
-            n = n + 1
-            
-
-        sacarDinero(cliente,cantidad)
+        if falloContraseñas(cliente):
+            return
+        else:
+            sacarDinero(cliente,cantidad)
                  
     else:
         sacarDinero(cliente,cantidad)
@@ -214,24 +217,11 @@ def op3_transferir (cliente):
 
     if cantidad >= int(c.informacion_clientes['saldo'][cliente])/2:
         print('Disculpa pero al intentar sacar una cantidad que iguala o supera el 50% de dinero de tu cuenta necesitamos una confirmación.')
-        passw=input('Introduce tu contraseña porfavor: ')
-        n = 0
 
-        while passw != c.informacion_clientes['contraseña'][cliente]:
-
-            print('Contraseña incorrecta.')
-            if n == 3:
-                print('Volveras a la pagina de inicio de sesion para la mayor seguridad de tu cuenta')
-                g.linea('_')
-                c.salgo = True
-                return
-            
-            passw=input('Introduce tu contraseña porfavor: ')
-
-            n = n + 1
-            
-
-        traspaso(cliente,cobrador,cantidad)
+        if falloContraseñas(cliente):
+            return
+        else:
+            traspaso(cliente,cobrador,cantidad)
             
     else:
         traspaso(cliente,cobrador,cantidad)
@@ -293,33 +283,45 @@ def op4_info(cliente):
 
     sensible = input('Desea ver informacion sensible de la cuenta, como el numero de cuenta, etc? (s/n)')
     if sensible == 's':
-        n = 0
-        while n < 3:
 
-            passw = input('Introduce tu contraseña porfavor: ')
-            while passw != c.informacion_clientes['contraseña'][cliente]:
-                print('Contraseña incorrecta.')
-                passw=input('Introduce tu contraseña porfavor: ')
-                g.linea('_')
-                n = n + 1
-            infoCuenta(cliente,oculto=False)
+        if falloContraseñas(cliente):
             return
-            
+        else:
+            infoCuenta(cliente,oculto=False)    
+            return
 
-        g.linea('*',y=2)
-        print('FALLASTE DEMASIADAS VECES LA CONTRASEÑA, TENDRAS QUE VOLVER A INICIAR SESION')
-        g.linea('*',y=2)
-        c.salgo = True
-        return 
-    
     else:
         infoCuenta(cliente,oculto=True)
 
 
 def op5_cambiar_contraseña(cliente):
-   passw = CC.pedirPassw()
-   print(cliente)
-   passw = CC.comprobarPassw(passw,c.informacion_clientes['usuario'][cliente])
-   c.informacion_clientes['contraseña'][cliente] = passw
+   if falloContraseñas(cliente):
+       return
+   else:
+        passw = CC.pedirPassw()
+        passw = CC.comprobarPassw(passw,c.informacion_clientes['usuario'][cliente])
+        c.informacion_clientes['contraseña'][cliente] = passw
    
-   return
+
+
+#FUNCION PARA CUANDO QUERAMOS COMPROBAR QUE EL USUARIO SE SABE LA CONTRASEÑA Y TIENE PERMITIDO HACER CIERTAS OPERACIONES
+
+def falloContraseñas(cliente,fallos=3):
+    passw=input('Introduce tu contraseña porfavor: ')
+    n = 0
+    while passw != c.informacion_clientes['contraseña'][cliente]:
+
+        print('Contraseña incorrecta.')
+        if n == (fallos-1):
+            g.linea()
+            g.linea('<>',x=39)
+            g.linea('═')
+            print('  FALLASTE DEMASIADAS VECES LA CONTRASEÑA, TENDRAS QUE VOLVER A INICIAR SESION')
+            g.linea('═')
+            g.linea('<>',x=39)
+            c.salgo = True
+            return True
+            
+        passw=input('Introduce tu contraseña porfavor: ')
+        n = n + 1
+    return False
