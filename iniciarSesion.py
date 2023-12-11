@@ -55,19 +55,35 @@ def comprobarCredenciales():
 def infoCuenta(cliente,oculto=True):
     print(c.informacion_clientes['nombreApellidos'][cliente].upper())
     g.linea()
-    print('USUARIO: ' + c.informacion_clientes['usuario'][cliente])
-    print('CONTRASEÑA: ' + g.ocultarStrings(c.informacion_clientes['contraseña'][cliente]))
-    print('SALDO: ' + c.informacion_clientes['saldo'][cliente] + '€')
-    if oculto:
-        print('NUMERO DE TARJETA: ' + g.stringEsp(g.ocultarStrings(c.informacion_clientes['numero de tarjeta'][cliente],posicion='inicio',numCaract=12)))
-        print('IBAN: ' + g.stringEsp(g.ocultarStrings(c.informacion_clientes['IBAN'][cliente],posicion='inicio',numCaract=16),salto=8))
-    else:
-        print('NUMERO DE TARJETA: ' + g.stringEsp(c.informacion_clientes['numero de tarjeta'][cliente]))
-        print('IBAN: ' + g.stringEsp(c.informacion_clientes['IBAN'][cliente],salto=8))
-        
-    print('BALANCE DEL MES: ' + str(c.informacion_clientes['balance del mes'][cliente]) + '€')
     
+    print('╔'+ '═════════════════════════════════════════════════════════════════' + '╗')
+    
+    print('║' + 'USUARIO: ' + c.informacion_clientes['usuario'][cliente], end = ' ') 
+    print((64-(len('USUARIO: ') + len(c.informacion_clientes['usuario'][cliente]))) * ' ' + '║')
 
+    print('║' +'CONTRASEÑA: ' + g.ocultarStrings(c.informacion_clientes['contraseña'][cliente]),end='')
+    print((65-(len('CONTRASEÑA: ') + len(c.informacion_clientes['contraseña'][cliente]))) * ' ' + '║')
+
+    print('║' +'SALDO: ' + c.informacion_clientes['saldo'][cliente] + '€',end='')
+    print((64-(len('SALDO: ') + len(c.informacion_clientes['saldo'][cliente]))) * ' ' + '║')
+    
+    if oculto:
+        print('║' +'NUMERO DE TARJETA: ' + g.stringEsp(g.ocultarStrings(c.informacion_clientes['numero de tarjeta'][cliente],posicion='inicio',numCaract=12)),end='')
+        print((62-(len('NUMERO DE TARJETA: ') + len(c.informacion_clientes['numero de tarjeta'][cliente]))) * ' ' + '║')
+
+        print('║' +'IBAN: ' + g.stringEsp(g.ocultarStrings(c.informacion_clientes['IBAN'][cliente],posicion='inicio',numCaract=16),salto=8),end='')
+        print((63-(len('IBAN: ') + len(c.informacion_clientes['IBAN'][cliente]))) * ' ' + '║')
+    else:
+        print('║' +'NUMERO DE TARJETA: ' + g.stringEsp(c.informacion_clientes['numero de tarjeta'][cliente]),end='')
+        print((62-(len('NUMERO DE TARJETA: ') + len(c.informacion_clientes['numero de tarjeta'][cliente]))) * ' ' + '║')
+        
+        print('║' +'IBAN: ' + g.stringEsp(c.informacion_clientes['IBAN'][cliente],salto=8),end='')
+        print((63-(len('IBAN: ') + len(c.informacion_clientes['IBAN'][cliente]))) * ' ' + '║')
+        
+    print('║' +'BALANCE DEL MES: ' + str(c.informacion_clientes['balance del mes'][cliente]) + '€',end='')
+    print((64-(len('BALANCE DEL MES: ') + len(c.informacion_clientes['balance del mes'][cliente]))) * ' ' + '║')
+    
+    print('╚'+ '═════════════════════════════════════════════════════════════════' + '╝')
 
 
 
@@ -287,7 +303,8 @@ def op4_info(cliente):
                 g.linea('_')
                 n = n + 1
             infoCuenta(cliente,oculto=False)
-            n = 4
+            return
+            
 
         g.linea('*',y=2)
         print('FALLASTE DEMASIADAS VECES LA CONTRASEÑA, TENDRAS QUE VOLVER A INICIAR SESION')
