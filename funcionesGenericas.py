@@ -27,6 +27,7 @@ def linea(c='',y=1,x=80):
             linea = linea + c
         print(linea)
         linea = c
+    return linea
 
 
 
@@ -100,3 +101,4 @@ def aleatorio(x):
 def stringEsp(strn,salto=4):
     strnEsp = ' '.join([strn[i:i+salto] for i in range(0, len(strn), salto)])
     return strnEsp
+
