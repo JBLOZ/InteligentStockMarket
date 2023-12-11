@@ -66,7 +66,7 @@ def infoCuenta(cliente,oculto=True):
     print('║' +'CONTRASEÑA: ' + g.ocultarStrings(c.informacion_clientes['contraseña'][cliente]),end='')
     print((65-(len('CONTRASEÑA: ') + len(c.informacion_clientes['contraseña'][cliente]))) * ' ' + '║')
 
-    print('║' +'SALDO: ' + c.informacion_clientes['saldo'][cliente] + '€',end='')
+    print('║' +'SALDO: ' + str(c.informacion_clientes['saldo'][cliente]) + '€',end='')
     print((64-(len('SALDO: ') + len(c.informacion_clientes['saldo'][cliente]))) * ' ' + '║')
     
     if oculto:
