@@ -93,7 +93,7 @@ def pedirDatos():
     g.linea(c='¯')
 
     pide (x='nombre',y='Nombre: ',z=[3,10])
-    pide (x='apellidos',y='Apellidos: ',z=[6,25])
+    pide (x='apellidos',y='Apellidos: ',z=[6,25],carc='ap')
     pide(x='DNI',y='DNI: ',z=[9,9],carc='ln')
     #FUNCION MAS COMPLICADA YA QUE TENEMOS QUE COMPROBAR QUE LOS PRIMEROS 8 CARACTERES SEAN NUMEROS Y QUE EL ULTIMO SEA UNA LETRA, ADEMAS DE QUE EN TOTAL TIENEN QUE SER 9 CIFRAS
     while not (g.comprobarStringCarcEsp(c.usuarioNuevo['DNI'][:8],tipo='n') and g.comprobarStringCarcEsp(c.usuarioNuevo['DNI'][8],tipo='l')):
@@ -136,6 +136,7 @@ def generaInfBancaria():
         saldotx.write('0' + '\n')
     with open ('informacionUsuarios/balance.txt', 'ta') as balancetx:
         balancetx.write('0' + '\n')
+    #UTILIZA LA FECHA DE HOY PARA AÑADIRLE 7 AÑOS Y ASI DATAR EL AÑO DE CADUCIDAD DE LA TARJETA TAL COMO SE HACE EN LOS BANCOS
 
     fechaHoy = datetime.now()
     fechaAñoStr = (int(fechaHoy.strftime('%Y')) + 7)

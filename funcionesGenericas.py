@@ -10,14 +10,19 @@ import random
 #BIENVENIDA A USUARIOS QUE ACABAN DE REISTRARSE
 
 def bienvenida(user,passw):
-    print('Bienvenido a Inteligent Stock Market ' + user + ', no comparta nunca su contrasena: ' + ocultarStrings(passw))
-    linea(c='¯')
+
+    frase = ('| BIENVENIDO A SU BANCO DE CONFIANZA (ISM) ' + user + ', NO COMPARTA NUNCA SU CONTRASEÑA ' + ocultarStrings(passw))
+    print(' ' + ('_'*(len(frase)-1)))
+    print(frase + '|')
+    print(' ' + ('¯'*(len(frase)-1)))
 
 #BIENVENIDA A USUARIOS QUE ACABAN DE INICIAR SESION
 
 def bienvenida2(user):
-    print('Bienvenido de nuevo ' + str(user) + ' a Inteligent Stock Market, te echabamos de menos')
-    linea('_')
+    frase = ('| BIENVENIDO DE NUEVO ' + str(user) + ' A INTELIGENT STOCK MARKET, TE ECHABAMOS DE MENOS')
+    print(' ' + ('_'*(len(frase)-1)))
+    print(frase + '|')
+    print(' ' + ('¯'*(len(frase)-1)))
 
 #GENERADOR DE LINEAS AL GUSTO, OPCION DE MODIFICAR EL TAMAÑO Y LA CANTIDAD DE LAS LINEAS, ASI COMO EL CARACTER QUE LA COMPONGA
 def linea(c='',y=1,x=80):
@@ -64,11 +69,12 @@ def comprobarStringCarcEsp(strn,tipo = 'l',long = None):
 
     if long == None:
         long = [0,50]
-
     
     valido = False
     for i in range(len(strn)):
         if tipo == 'l' and (97 <= ord(strn[i].lower()) <= 122 or ord(strn[i].lower()) == 32):
+            valido = True
+        elif tipo == 'ap' and (97 <= ord(strn[i].lower()) <= 122 or ord(strn[i].lower()) == 32) and ' ' in strn:
             valido = True
             
         elif tipo == 'n' and 47 <= ord(strn[i]) <= 57:
