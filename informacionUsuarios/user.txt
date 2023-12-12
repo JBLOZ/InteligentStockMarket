@@ -4,7 +4,7 @@ Adi
 elena
 Elena
 Mune
-Eleputolena
+Elelena
 Sara
 Joaquin
 Miguel
@@ -14,3 +14,4 @@ aos
 Gallordi
 Amadeo
 albertorf
+Manu

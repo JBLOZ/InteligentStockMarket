@@ -31,9 +31,10 @@ def comprobarCredenciales():
     
 
     while n < 3:
-
-        usuario_iniciando = input('Introduce el usuario para iniciar sesión: ')
-        contrasena_iniciando = input('Introduce la contraseña para iniciar sesión: ')
+        print('╔══════════════════════════════════════════════════════════════════')    
+        usuario_iniciando = input('║ Introduce el usuario para iniciar sesión: ')
+        contrasena_iniciando = input('║ Introduce la contraseña para iniciar sesión: ')
+        print('╚══════════════════════════════════════════════════════════════════')
 
         for i in range (len(c.informacion_clientes['usuario'])):
             if c.informacion_clientes['usuario'][i] == usuario_iniciando and c.informacion_clientes['contraseña'][i] == contrasena_iniciando:
@@ -45,7 +46,6 @@ def comprobarCredenciales():
                 return cliente
      
         print('Usuario o contraseña incorrectos.')
-        g.linea('<>',x=39)
         n = n + 1      
 
     return None    
@@ -53,7 +53,7 @@ def comprobarCredenciales():
 
 #PROPORCIONA LA INFORMACION DE LA CUENTA DEL CLIENTE QUE HA INICIADO SESION 
 
-def infoCuenta(cliente,oculto=True):
+def infoCuenta(cliente,oculto=True,operacion=False):
     print("INFORMACION DEL USUARIO")
     print(c.informacion_clientes['nombreApellidos'][cliente].upper())
     g.linea()
@@ -62,31 +62,31 @@ def infoCuenta(cliente,oculto=True):
     
     print('║' + 'USUARIO: ' + c.informacion_clientes['usuario'][cliente], end = ' ') 
     print((64-(len('USUARIO: ') + len(c.informacion_clientes['usuario'][cliente]))) * ' ' + '║')
-
-    print('║' +'CONTRASEÑA: ' + g.ocultarStrings(c.informacion_clientes['contraseña'][cliente]),end='')
-    print((65-(len('CONTRASEÑA: ') + len(c.informacion_clientes['contraseña'][cliente]))) * ' ' + '║')
+    if not operacion:
+        print('║' +'CONTRASEÑA: ' + g.ocultarStrings(c.informacion_clientes['contraseña'][cliente]),end='')
+        print((65-(len('CONTRASEÑA: ') + len(c.informacion_clientes['contraseña'][cliente]))) * ' ' + '║')
 
     print('║' +'SALDO: ' + str(round(float(c.informacion_clientes['saldo'][cliente]),2)) + '€',end='')
     print((64-(len('SALDO: ') + len(str(round(float(c.informacion_clientes['saldo'][cliente]),2))))) * ' ' + '║')
-    
-    if oculto:
-        print('║' +'NUMERO DE TARJETA: ' + g.stringEsp(g.ocultarStrings(c.informacion_clientes['numero de tarjeta'][cliente],posicion='inicio',numCaract=12)),end='')
-        print((62-(len('NUMERO DE TARJETA: ') + len(c.informacion_clientes['numero de tarjeta'][cliente]))) * ' ' + '║')
+    if not operacion:
+        if oculto:
+            print('║' +'NUMERO DE TARJETA: ' + g.stringEsp(g.ocultarStrings(c.informacion_clientes['numero de tarjeta'][cliente],posicion='inicio',numCaract=12)),end='')
+            print((62-(len('NUMERO DE TARJETA: ') + len(c.informacion_clientes['numero de tarjeta'][cliente]))) * ' ' + '║')
 
-        print('║' +'FECHA DE CADUCIDAD: ' + g.ocultarStrings(c.informacion_clientes['fechaCaducidad'][cliente],posicion='inicio',numCaract=5),end='')
-        print((65-(len('FECHA DE CADUCIDAD: ') + len(c.informacion_clientes['fechaCaducidad'][cliente]))) * ' ' + '║')
+            print('║' +'FECHA DE CADUCIDAD: ' + g.ocultarStrings(c.informacion_clientes['fechaCaducidad'][cliente],posicion='inicio',numCaract=5),end='')
+            print((65-(len('FECHA DE CADUCIDAD: ') + len(c.informacion_clientes['fechaCaducidad'][cliente]))) * ' ' + '║')
 
-        print('║' +'IBAN: ' + c.informacion_clientes['IBAN'][cliente][:4] + ' **** **** **** **** ' + c.informacion_clientes['IBAN'][cliente][20::],end='')
-        print((60-(len('IBAN: ') + len(c.informacion_clientes['IBAN'][cliente]))) * ' ' + '║')
-    else:
-        print('║' +'NUMERO DE TARJETA: ' + g.stringEsp(c.informacion_clientes['numero de tarjeta'][cliente]),end='')
-        print((62-(len('NUMERO DE TARJETA: ') + len(c.informacion_clientes['numero de tarjeta'][cliente]))) * ' ' + '║')
+            print('║' +'IBAN: ' + c.informacion_clientes['IBAN'][cliente][:4] + ' **** **** **** **** ' + c.informacion_clientes['IBAN'][cliente][20::],end='')
+            print((60-(len('IBAN: ') + len(c.informacion_clientes['IBAN'][cliente]))) * ' ' + '║')
+        else:
+            print('║' +'NUMERO DE TARJETA: ' + g.stringEsp(c.informacion_clientes['numero de tarjeta'][cliente]),end='')
+            print((62-(len('NUMERO DE TARJETA: ') + len(c.informacion_clientes['numero de tarjeta'][cliente]))) * ' ' + '║')
 
-        print('║' +'FECHA DE CADUCIDAD: ' + c.informacion_clientes['fechaCaducidad'][cliente],end='')
-        print((65-(len('FECHA DE CADUCIDAD: ') + len(c.informacion_clientes['fechaCaducidad'][cliente]))) * ' ' + '║')
+            print('║' +'FECHA DE CADUCIDAD: ' + c.informacion_clientes['fechaCaducidad'][cliente],end='')
+            print((65-(len('FECHA DE CADUCIDAD: ') + len(c.informacion_clientes['fechaCaducidad'][cliente]))) * ' ' + '║')
         
-        print('║' +'IBAN: ' + g.stringEsp(c.informacion_clientes['IBAN'][cliente],salto=4),end='')
-        print((60-(len('IBAN: ') + len(c.informacion_clientes['IBAN'][cliente]))) * ' ' + '║')
+            print('║' +'IBAN: ' + g.stringEsp(c.informacion_clientes['IBAN'][cliente],salto=4),end='')
+            print((60-(len('IBAN: ') + len(c.informacion_clientes['IBAN'][cliente]))) * ' ' + '║')
         
     print('║' +'BALANCE DEL MES: ' + str(round(float(c.informacion_clientes['balance del mes'][cliente]),2)) + '€',end='')
     print((64-(len('BALANCE DEL MES: ') + len(str(round(float(c.informacion_clientes['balance del mes'][cliente]),2))))) * ' ' + '║')
@@ -156,9 +156,7 @@ def op1_ingreso(cliente):
     c.informacion_clientes['saldo'][cliente] = str(float(c.informacion_clientes['saldo'][cliente]) + ingreso)
     c.informacion_clientes['balance del mes'][cliente]= str(float(c.informacion_clientes['balance del mes'][cliente]) + ingreso)
 
-    print(f"Usuario: {c.informacion_clientes['usuario'][cliente]}")
-    print(f"Saldo: {str(round(float(c.informacion_clientes['saldo'][cliente]),2))} €")
-    print(f"Balance del mes: {str(round(float(c.informacion_clientes['balance del mes'][cliente]),2))} €")
+    infoCuenta(cliente,operacion=True)
     g.linea()
 
     return
@@ -201,9 +199,7 @@ def sacarDinero(cliente,cantidad):
     c.informacion_clientes['saldo'][cliente] = str(float(c.informacion_clientes['saldo'][cliente]) - cantidad)
     c.informacion_clientes['balance del mes'][cliente]= str(float(c.informacion_clientes['balance del mes'][cliente]) - cantidad)
 
-    print(f"Usuario: {c.informacion_clientes['usuario'][cliente]}")
-    print(f"Saldo: {str(round(float(c.informacion_clientes['saldo'][cliente]),2))} €")
-    print(f"Balance del mes: {str(round(float(c.informacion_clientes['balance del mes'][cliente]),2))} €")
+    infoCuenta(cliente,operacion=True)
     g.linea()    
 
     return
@@ -290,12 +286,9 @@ def traspaso (cliente,cobrador,cantidad):
     c.informacion_clientes['saldo'][cobrador]= str(float(c.informacion_clientes['saldo'][cobrador]) + cantidad)
     c.informacion_clientes['balance del mes'][cobrador]= str(float(c.informacion_clientes['balance del mes'][cobrador]) + cantidad)
 
-    g.linea('*')    
-    print('ESTADISTICAS DE SU CUENTA: ')
-    print(f"Usuario: {c.informacion_clientes['usuario'][cliente]}")
-    print(f"Saldo: {str(round(float(c.informacion_clientes['saldo'][cliente]),2))} €")
-    print(f"Balance del mes: {str(round(float(c.informacion_clientes['balance del mes'][cliente]),2))} €")
-    g.linea('*') 
+    
+    infoCuenta(cliente,operacion=True)
+ 
 
     return   
         

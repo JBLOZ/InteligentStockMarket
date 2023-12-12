@@ -16,9 +16,11 @@ def iniciarSesion_crearCuenta():
         c.leerArchivos()
 
         g.linea(y=2)
-        g.linea(c='*')
-
-        s = input("¿Desea Iniciar sesión, Registrarse o Salir? (i/r/s): ")
+        
+        
+        print('╔══════════════════════════════════════════════════════════════════')
+        s = input("║ ¿Desea Iniciar sesión, Registrarse o Salir? (i/r/s): ")
+        print('╚══════════════════════════════════════════════════════════════════')
 
         if s=='i':
             
@@ -31,6 +33,6 @@ def iniciarSesion_crearCuenta():
         
         elif s=='s':
 
-            g.linea(c='*')
+            g.linea(c='═')
             salir = True
         
