@@ -66,8 +66,8 @@ def infoCuenta(cliente,oculto=True):
     print('║' +'CONTRASEÑA: ' + g.ocultarStrings(c.informacion_clientes['contraseña'][cliente]),end='')
     print((65-(len('CONTRASEÑA: ') + len(c.informacion_clientes['contraseña'][cliente]))) * ' ' + '║')
 
-    print('║' +'SALDO: ' + str(c.informacion_clientes['saldo'][cliente]) + '€',end='')
-    print((64-(len('SALDO: ') + len(c.informacion_clientes['saldo'][cliente]))) * ' ' + '║')
+    print('║' +'SALDO: ' + str(round(float(c.informacion_clientes['saldo'][cliente]),2)) + '€',end='')
+    print((64-(len('SALDO: ') + len(str(round(float(c.informacion_clientes['saldo'][cliente]),2))))) * ' ' + '║')
     
     if oculto:
         print('║' +'NUMERO DE TARJETA: ' + g.stringEsp(g.ocultarStrings(c.informacion_clientes['numero de tarjeta'][cliente],posicion='inicio',numCaract=12)),end='')
@@ -76,8 +76,8 @@ def infoCuenta(cliente,oculto=True):
         print('║' +'FECHA DE CADUCIDAD: ' + g.ocultarStrings(c.informacion_clientes['fechaCaducidad'][cliente],posicion='inicio',numCaract=5),end='')
         print((65-(len('FECHA DE CADUCIDAD: ') + len(c.informacion_clientes['fechaCaducidad'][cliente]))) * ' ' + '║')
 
-        print('║' +'IBAN: ' + g.stringEsp(g.ocultarStrings(c.informacion_clientes['IBAN'][cliente],posicion='inicio',numCaract=16),salto=8),end='')
-        print((63-(len('IBAN: ') + len(c.informacion_clientes['IBAN'][cliente]))) * ' ' + '║')
+        print('║' +'IBAN: ' + c.informacion_clientes['IBAN'][cliente][:4] + ' **** **** **** **** ' + c.informacion_clientes['IBAN'][cliente][20::],end='')
+        print((60-(len('IBAN: ') + len(c.informacion_clientes['IBAN'][cliente]))) * ' ' + '║')
     else:
         print('║' +'NUMERO DE TARJETA: ' + g.stringEsp(c.informacion_clientes['numero de tarjeta'][cliente]),end='')
         print((62-(len('NUMERO DE TARJETA: ') + len(c.informacion_clientes['numero de tarjeta'][cliente]))) * ' ' + '║')
@@ -85,11 +85,11 @@ def infoCuenta(cliente,oculto=True):
         print('║' +'FECHA DE CADUCIDAD: ' + c.informacion_clientes['fechaCaducidad'][cliente],end='')
         print((65-(len('FECHA DE CADUCIDAD: ') + len(c.informacion_clientes['fechaCaducidad'][cliente]))) * ' ' + '║')
         
-        print('║' +'IBAN: ' + g.stringEsp(c.informacion_clientes['IBAN'][cliente],salto=8),end='')
-        print((63-(len('IBAN: ') + len(c.informacion_clientes['IBAN'][cliente]))) * ' ' + '║')
+        print('║' +'IBAN: ' + g.stringEsp(c.informacion_clientes['IBAN'][cliente],salto=4),end='')
+        print((60-(len('IBAN: ') + len(c.informacion_clientes['IBAN'][cliente]))) * ' ' + '║')
         
-    print('║' +'BALANCE DEL MES: ' + str(c.informacion_clientes['balance del mes'][cliente]) + '€',end='')
-    print((64-(len('BALANCE DEL MES: ') + len(c.informacion_clientes['balance del mes'][cliente]))) * ' ' + '║')
+    print('║' +'BALANCE DEL MES: ' + str(round(float(c.informacion_clientes['balance del mes'][cliente]),2)) + '€',end='')
+    print((64-(len('BALANCE DEL MES: ') + len(str(round(float(c.informacion_clientes['balance del mes'][cliente]),2))))) * ' ' + '║')
     
     print('╚═════════════════════════════════════════════════════════════════╝')
 
@@ -122,7 +122,7 @@ def menu(cliente):
         elif opcion=='2':
             op2_sacar(cliente)
         elif opcion=='3':
-            if(int(c.informacion_clientes['saldo'][cliente]) > 0):
+            if(float(c.informacion_clientes['saldo'][cliente]) > 0):
                 op3_transferir(cliente)
             else:
                 print('No se pueden hacer trasferencias sin dinero, imagínate que tienes cero galletas y la repartes entre cero amigos.')
@@ -146,15 +146,19 @@ def menu(cliente):
 #VUELVEN AL MENU PRINCIPAL DONDE SE ESCRIBEN EN LOS FICHEROS LA INFORMACION RECOLECTADA  
 
 def op1_ingreso(cliente):
-    ingreso= int(input('Introduce la cantidad a ingresar: '))
+    ingreso = float(input('Introduce la cantidad a ingresar: '))
+    while ingreso < 0:
+        print('no puedes introducir una cantidad negativa')
+        ingreso = float(input('Introduce la cantidad a ingresar: '))
+
     g.linea('_')
 
-    c.informacion_clientes['saldo'][cliente] = str(int(c.informacion_clientes['saldo'][cliente]) + ingreso)
-    c.informacion_clientes['balance del mes'][cliente]= str(int(c.informacion_clientes['balance del mes'][cliente]) + ingreso)
+    c.informacion_clientes['saldo'][cliente] = str(float(c.informacion_clientes['saldo'][cliente]) + ingreso)
+    c.informacion_clientes['balance del mes'][cliente]= str(float(c.informacion_clientes['balance del mes'][cliente]) + ingreso)
 
     print(f"Usuario: {c.informacion_clientes['usuario'][cliente]}")
-    print(f"Saldo: {str(c.informacion_clientes['saldo'][cliente])}")
-    print(f"Balance del mes: {str(c.informacion_clientes['balance del mes'][cliente])}")
+    print(f"Saldo: {str(round(float(c.informacion_clientes['saldo'][cliente]),2))} €")
+    print(f"Balance del mes: {str(round(float(c.informacion_clientes['balance del mes'][cliente]),2))} €")
     g.linea()
 
     return
@@ -168,12 +172,17 @@ def op1_ingreso(cliente):
 def op2_sacar (cliente):
     
    
-    cantidad = int(input('Introduce la cantidad a sacar: '))
+    cantidad = float(input('Introduce la cantidad a sacar: '))
     g.linea('_')
-    while not (cantidad <= int(c.informacion_clientes['saldo'][cliente])):
-        cantidad = int(input('Introduce una cantidad menor a tu saldo de ' + str(c.informacion_clientes['saldo'][cliente]) + '€: '))
+    while (cantidad > float(c.informacion_clientes['saldo'][cliente]) or cantidad < 0):
+        if cantidad < 0:
+            print('no puedes introducir una cantidad negativa')
+        else:
+            print('Fondos insuficientes')
 
-    if cantidad >= int(c.informacion_clientes['saldo'][cliente])/2:
+        cantidad = float(input('Vuelva a introducir el importe, siempre menor a su saldo de ' + str(c.informacion_clientes['saldo'][cliente])+ '€: '))
+
+    if cantidad >= float(c.informacion_clientes['saldo'][cliente])/2:
         print('Disculpa pero al intentar obtener una cantidad que iguala o supera el 50% de dinero')
         print('de tu cuenta necesitamos una confirmación.')
         g.linea(c='¯')
@@ -189,12 +198,12 @@ def op2_sacar (cliente):
 
 
 def sacarDinero(cliente,cantidad):
-    c.informacion_clientes['saldo'][cliente] = str(int(c.informacion_clientes['saldo'][cliente]) - cantidad)
-    c.informacion_clientes['balance del mes'][cliente]= str(int(c.informacion_clientes['balance del mes'][cliente]) - cantidad)
+    c.informacion_clientes['saldo'][cliente] = str(float(c.informacion_clientes['saldo'][cliente]) - cantidad)
+    c.informacion_clientes['balance del mes'][cliente]= str(float(c.informacion_clientes['balance del mes'][cliente]) - cantidad)
 
     print(f"Usuario: {c.informacion_clientes['usuario'][cliente]}")
-    print(f"Saldo: {str(c.informacion_clientes['saldo'][cliente])}")
-    print(f"Balance del mes: {str(c.informacion_clientes['balance del mes'][cliente])}")
+    print(f"Saldo: {str(round(float(c.informacion_clientes['saldo'][cliente]),2))} €")
+    print(f"Balance del mes: {str(round(float(c.informacion_clientes['balance del mes'][cliente]),2))} €")
     g.linea()    
 
     return
@@ -206,20 +215,24 @@ def sacarDinero(cliente,cantidad):
 
 def op3_transferir (cliente):
 
-    cobrador = bizumTransferencia()
+    cobrador = bizumTransferencia(cliente)
     s = input('Desea transferir dinero a ' + c.informacion_clientes['nombreApellidos'][cobrador].upper() + ' ? (s/n): ')
     if s.upper() == 'S':
 
-        cantidad = int(input('Introduce el dinero que se va a transferir: '))
+        cantidad = float(input('Introduce el dinero que se va a transferir: '))
 
         g.linea('_')
 
-        while not (cantidad <= int(c.informacion_clientes['saldo'][cliente])):
-            print('Fondos insuficientes')
-            cantidad = int(input('Vuelva a introducir el importe, siempre menor a su saldo de ' + str(c.informacion_clientes['saldo'][cliente])+ '€: '))
+        while (cantidad >= float(c.informacion_clientes['saldo'][cliente]) or cantidad < 0):
+            if cantidad < 0:
+                print('no puedes introducir una cantidad negativa')
+            else:
+                print('Fondos insuficientes')
+
+            cantidad = float(input('Vuelva a introducir el importe, siempre menor a su saldo de ' + str(c.informacion_clientes['saldo'][cliente])+ '€: '))
 
 
-        if cantidad >= int(c.informacion_clientes['saldo'][cliente])/2:
+        if cantidad >= float(c.informacion_clientes['saldo'][cliente])/2:
             print('Disculpa pero al intentar transferir una cantidad que iguala o supera el 50% de dinero')
             print('de tu cuenta necesitamos una confirmación.')
             g.linea(c='¯')
@@ -236,10 +249,10 @@ def op3_transferir (cliente):
 
 #FUNCION QUE SIRVE PARA COMPARAR Y BUSCAR POR NUMERO O POR IBAN PARA HACER UN TRASPASO DE DINERO A OTRA CUENTA
 
-def bizumTransferencia():
+def bizumTransferencia(cliente):
 
     encontrado = False
-    tipo=input('Que desea realizar, bizum o transferencia? (b/t): ')
+    tipo=''
 
     while tipo != 'b' and tipo != 't':
         tipo=input('Que desea realizar, bizum o transferencia? (b/t): ')
@@ -249,7 +262,7 @@ def bizumTransferencia():
             tel=input('Introduce el numero de telefono del cobrador del bizum: ')
             for i in range (len(c.informacion_clientes['telefono'])):
 
-                if tel == c.informacion_clientes['telefono'][i]:
+                if tel == c.informacion_clientes['telefono'][i] and c.informacion_clientes['telefono'][cliente] != c.informacion_clientes['telefono'][i]:
                     cobrador = i
                     encontrado = True
                 
@@ -257,10 +270,10 @@ def bizumTransferencia():
     elif tipo == 't':
 
         while encontrado == False:
-            tel=input('Introduce el numero IBAN (de ISM) de la cuenta del cobrador de la transferencia: ')
+            IBAN=input('Introduce el numero IBAN (de ISM) de la cuenta del cobrador de la transferencia: ')
             for i in range (len(c.informacion_clientes['IBAN'])):
 
-                if tel == c.informacion_clientes['IBAN'][i]:
+                if IBAN == c.informacion_clientes['IBAN'][i] and c.informacion_clientes['IBAN'][cliente] != c.informacion_clientes['IBAN'][i]:
                     cobrador = i
                     encontrado = True
                 
@@ -270,18 +283,18 @@ def bizumTransferencia():
 
 def traspaso (cliente,cobrador,cantidad):
     
-    c.informacion_clientes['saldo'][cliente] = str(int(c.informacion_clientes['saldo'][cliente]) - cantidad)
-    c.informacion_clientes['balance del mes'][cliente]= str(int(c.informacion_clientes['balance del mes'][cliente]) - cantidad)
+    c.informacion_clientes['saldo'][cliente] = str(float(c.informacion_clientes['saldo'][cliente]) - cantidad)
+    c.informacion_clientes['balance del mes'][cliente]= str(float(c.informacion_clientes['balance del mes'][cliente]) - cantidad)
 
 
-    c.informacion_clientes['saldo'][cobrador]= str(int(c.informacion_clientes['saldo'][cobrador]) + cantidad)
-    c.informacion_clientes['balance del mes'][cobrador]= str(int(c.informacion_clientes['balance del mes'][cobrador]) + cantidad)
+    c.informacion_clientes['saldo'][cobrador]= str(float(c.informacion_clientes['saldo'][cobrador]) + cantidad)
+    c.informacion_clientes['balance del mes'][cobrador]= str(float(c.informacion_clientes['balance del mes'][cobrador]) + cantidad)
 
     g.linea('*')    
     print('ESTADISTICAS DE SU CUENTA: ')
     print(f"Usuario: {c.informacion_clientes['usuario'][cliente]}")
-    print(f"Saldo: {str(c.informacion_clientes['saldo'][cliente])}")
-    print(f"Balance del mes: {str(c.informacion_clientes['balance del mes'][cliente])}")
+    print(f"Saldo: {str(round(float(c.informacion_clientes['saldo'][cliente]),2))} €")
+    print(f"Balance del mes: {str(round(float(c.informacion_clientes['balance del mes'][cliente]),2))} €")
     g.linea('*') 
 
     return   
