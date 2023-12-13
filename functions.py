@@ -33,6 +33,6 @@ def iniciarSesion_crearCuenta():
         
         elif s=='s':
 
-            g.linea(c='═')
+            g.linea()
             salir = True
         
