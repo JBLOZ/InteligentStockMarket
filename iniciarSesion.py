@@ -5,7 +5,8 @@ import random
 
 
 #FUNCION PRINCIPAL DE INICIAR SESION, COMPRUEBA QUE LA CONTRASEÑA COINCIDA CON EL USUARIO Y 
-#DEVUELVE EL NUMERO DE CLIENTE QUE CORRESPONDERÁ AL HUECO DE LA LISTA DE LOS VALORES DEL DICCIONARIO EN LA QUE ESTARAN GUARDADOS LOS DATOS DE LOS USUARIOS
+#DEVUELVE EL NUMERO DE CLIENTE QUE CORRESPONDERÁ AL HUECO DE LA LISTA DE LOS VALORES DEL DICCIONARIO EN LA QUE 
+# ESTARAN GUARDADOS LOS DATOS DE LOS USUARIOS
 
 def iniciarSesion():
     
@@ -96,8 +97,7 @@ def infoCuenta(cliente,oculto=True,operacion=False):
 
 #MUESTRA EL MENU DE OPCIONES PARA EL USUARIO Y LLAMA A LAS FUNCIONES QUE EL USUARIO TIENE A SU DISPOSICION
 
-def menu(cliente):
-    
+def menu(cliente): 
     while c.salgo==False:
 
         c.escribir_en_archivos()
@@ -112,7 +112,6 @@ def menu(cliente):
         print('║                (5)    Cambiar contraseña                        ║')
         print('║                (6)          Salir                               ║')
         print('╚═════════════════════════════════════════════════════════════════╝')
-
         opcion=input('Elige una opción: ')
 
         g.linea()
@@ -125,6 +124,7 @@ def menu(cliente):
             if(float(c.informacion_clientes['saldo'][cliente]) > 0):
                 op3_transferir(cliente)
             else:
+                #Referencia a SIRI
                 print('No se pueden hacer trasferencias sin dinero, imagínate que tienes cero galletas y la repartes entre cero amigos.')
                 print('¿Cuántas galletas le tocan a cada amigo? No tiene sentido, ¿lo ves? Intenta conseguir alguna galleta antes de que') 
                 print('el mounstruo de las galletas se coma a los pocos amigos que te quedan por no tener galletas para darle.')
